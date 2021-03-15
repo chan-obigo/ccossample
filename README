@@ -1,0 +1,11 @@
+[How to build]
+$ chmod 755 ./init.sh
+$ ./init.sh
+$ make
+$ make install
+
+
+[How to install to target]
+$ cd output
+$ scp -r ./* root@192.168.0.1:/
+$ ssh root@192.168.0.1 reboot
