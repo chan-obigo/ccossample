@@ -12,7 +12,7 @@ REGISTER_APP_SERVICE(ExampleAppService)
 ExampleAppService::ExampleAppService(const std::string& serviceType) : HmiAppServiceBase(serviceType) {}
 
 ccos::HBool ExampleAppService::onStart() {
-    HDebug() << "adding windows for ExampleAppService";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     registerSession(HLifecycleSession::SESSION_ITEM_BOOTCOMPLETE,
                     HNsmSessionState::NSM_SESSION_STATE_INACTIVE);
@@ -25,26 +25,26 @@ void ExampleAppService::onIACMessageReceived(const std::string& senderId, const 
     (void)(senderId);
 
     if (msgId == "SYSTEM_NOTIFY_AGREEMENT_READY_USERPROFILE") {
-         HInfo() << "agreement_ready_ExampleAPP";  
+        fprintf(stdout, "[ObigoParent]::%s::%d::agreement_ready_ExampleAPP\n", __func__, __LINE__); fflush(stdout);
       }
-  
-    HInfo() << "SendMessage_ExampleAPP";
+
+    fprintf(stdout, "[ObigoParent]::%s::%d::SendMessage_ExampleAPP\n", __func__, __LINE__); fflush(stdout);
 
     ccos::HByte val1 = 0x01;
     std::vector<ccos::HByte> _msgData;
     _msgData.push_back(val1);
 
-    sendMessage("VEHICLESTATEMANAGER", "ExampleApp_to_ExampleManagerApp", _msgData);
+    fprintf(stdout, "[ObigoParent]::%s::%d::ExampleApp_to_ExampleManagerApp\n", __func__, __LINE__); fflush(stdout);
 }
 
 void ExampleAppService::onSessionStateChanged(const ccos::lifecycle::HLifecycleSession& sessionName,
                                                   const ccos::lifecycle::HNsmSessionState& sessionState) {
-    HInfo() << "onSessionStateChanged_ExampleApp";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     if (sessionState == HNsmSessionState::NSM_SESSION_STATE_ACTIVE) {
-        HInfo() << "AEM changelayout to home";
-    } else {   
-        HInfo() << "registerd BOOT_COMPLETE Session";
+        fprintf(stdout, "[ObigoParent]::%s::%d::AEM changelayout to home\n", __func__, __LINE__); fflush(stdout);
+    } else {
+        fprintf(stdout, "[ObigoParent]::%s::%d::registerd BOOT_COMPLETE Session\n", __func__, __LINE__); fflush(stdout);
     }
 }
 
@@ -54,7 +54,7 @@ HResult ExampleAppService::onReady() {
 }
 
 HResult ExampleAppService::onRun() {
-    HInfo() << "Runeeeeee";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
    
     return HResult::OK;
 }

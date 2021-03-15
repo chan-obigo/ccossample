@@ -21,12 +21,12 @@ ExampleFrontWindow::ExampleFrontWindow(const appcommon::HmiAppServiceBaseRef& pa
 ExampleFrontWindow::~ExampleFrontWindow() {}
 
 HBool ExampleFrontWindow::onCreate() {
-    HInfo() << "[Example] ExampleFrontWindow::onCreate";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     return true;
 }
 
 void ExampleFrontWindow::onLoaded() {
-    HInfo() << "[Example] ExampleFrontWindow::onLoaded";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     m_qquickWindow = const_cast<QQuickWindow*>(&getQWindow());
 }
 
@@ -38,32 +38,32 @@ void ExampleFrontWindow::onBindScene() {
     std::vector<std::string> sceneIDs;
     getSceneIDs(sceneIDs);
     for (const auto &scene : sceneIDs) {
-        HInfo() << "[Example]" << scene;
+        fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     }
 }
 
 void ExampleFrontWindow::onShow() {
-    HInfo() << "ExampleFrontWindow onShow()";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 }
 
 void ExampleFrontWindow::onHide() {
-    HInfo() << "ExampleFrontWindow onHide()";
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 }
 
 
 ccos::HBool ExampleFrontWindow::onControllerTouchEvent(const std::vector<ccos::common::HTouchEvent> &events) {
-    HInfo() << "ExampleFrontWindow::onControllerTouchEvent ++++++++++++++++++++" << __func__ << "::" << __LINE__;
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 }
 
 
 void ExampleFrontWindow::createSlot() {
-    HInfo() << "ExampleFrontWindow:: ++++++++++++++++++ " << __func__ << "::" << __LINE__;
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     SubSurfaceManager::getInstance()->create();
 }
 
 void ExampleFrontWindow::showSlot() {
-    HInfo() << "ExampleFrontWindow:: ++++++++++++++++++ " << __func__ << "::" << __LINE__;
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
     struct wl_surface *surface = static_cast<struct wl_surface *>(native->nativeResourceForWindow("surface", m_qquickWindow));
@@ -80,7 +80,7 @@ void ExampleFrontWindow::showSlot() {
 }
 
 void ExampleFrontWindow::hideSlot() {
-    HInfo() << "ExampleFrontWindow:: ++++++++++++++++++ " << __func__ << "::" << __LINE__;
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     ccos::window::HWindowId hWindowId = const_cast<ccos::window::HWindow&>(getHWindow()).getWindowId();
     SubSurfaceManager::getInstance()->hide(hWindowId);

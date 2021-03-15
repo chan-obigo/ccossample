@@ -15,7 +15,7 @@ const int WIDTH = 250;
 const int HEIGHT = 250;
 
 static int create_shared_fd(off_t size) {
-    fprintf(stdout, "[ObigoChild] create_shared_fd\n"); fflush(stdout);
+    fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     char name[1024] = "";
 
     const char *path = getenv("XDG_RUNTIME_DIR");
@@ -42,7 +42,7 @@ static int create_shared_fd(off_t size) {
 }
 
 static void* create_window(struct wl_surface *surface) {
-    fprintf(stdout, "[ObigoChild] create_window\n"); fflush(stdout);
+    fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     int stride = WIDTH * 4;  // 4 bytes per pixel
     int size = stride * HEIGHT;
 
@@ -63,7 +63,7 @@ static void* create_window(struct wl_surface *surface) {
 }
 
 static void paint_pixels(uint32_t *pixel) {
-    fprintf(stdout, "[ObigoChild] paint_pixels\n"); fflush(stdout);
+    fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     for (int y = 0; y < HEIGHT; y++) {
         for (int x = 0; x < WIDTH; x++) {
             int mx = x / 20;
@@ -92,7 +92,7 @@ SubSurface::~SubSurface() {}
 void SubSurface::CreateSurface(int32_t surfaceid) {
     m_wlsurface = wl_compositor_create_surface(compositor);
     m_ivisurface = ivi_application_surface_create(iviapplication, surfaceid, m_wlsurface);
-
+    
     fprintf(stdout, "[ObigoChild] wl_compositor_create_surface : %p\n", m_wlsurface); fflush(stdout);
     fprintf(stdout, "[ObigoChild] ivi_application_surface_create : %p\n", m_ivisurface); fflush(stdout);
 
