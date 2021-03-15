@@ -3,7 +3,6 @@
 #include <wayland-client-protocol.h>
 #include "QtGui/5.15.1/QtGui/qpa/qplatformnativeinterface.h"
 
-#include "LogContext.h"
 #include "window/ExampleFrontWindow.h"
 
 #include "scene/SceneExampleMain.h"

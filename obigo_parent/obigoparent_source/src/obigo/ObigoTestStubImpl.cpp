@@ -1,7 +1,5 @@
 #include "obigo/ObigoTestStubImpl.h"
 
-#include "LogContext.h"
-
 namespace v1 {
 namespace commonapi {
 namespace examples {

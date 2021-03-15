@@ -3,12 +3,10 @@
 
 #include <HSubSurface.h>
 
-#include "LogContext.h"
-
 class ExampleSubSurfaceListener : public ccos::window::IHSubSurfaceListener {
 public:
     void onVisibilityChanged(const ccos::HBool& flag) override {
-        HInfo() << "[Example] ExampleSubSurfaceListener::onVisibilityChanged(" << flag << ")";
+        fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     }
 };
 

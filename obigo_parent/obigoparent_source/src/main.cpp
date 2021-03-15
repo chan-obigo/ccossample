@@ -9,7 +9,6 @@
 #include <QQmlContext>
 
 #include "ExampleAppService.h"
-#include "LogContext.h"
 #include "obigo/ObigoStub.h"
 
 using namespace ccos;
