@@ -7,5 +7,6 @@ $ make install
 
 [How to install to target]
 $ cd output
-$ scp -r ./* root@192.168.0.1:/
-$ ssh root@192.168.0.1 reboot
+
+$ scp -r ./* root@[IP]:/
+$ ssh root@[IP] reboot
