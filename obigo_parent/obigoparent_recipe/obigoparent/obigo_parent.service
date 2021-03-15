@@ -1,0 +1,15 @@
+[Unit]
+Description=obigo_parent
+Wants=weston.service ccos-session-bus.service
+Before=homehmi.service
+After=weston.service ccos-session-bus.service appeventmanager.service obigo_child.service
+
+[Service]
+Type=simple
+WorkingDirectory=/ccos/apps/hmi/obigo_parent
+ExecStart=/ccos/apps/hmi/obigo_parent/obigo_parent
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

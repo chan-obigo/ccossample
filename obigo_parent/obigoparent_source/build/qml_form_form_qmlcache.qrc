@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="EXAMPLE_Main_Form.ui.qml">../qml/form/EXAMPLE_Main_Form.ui.qml</file>
+    </qresource>
+</RCC>

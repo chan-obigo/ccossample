@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/">
+        <file alias="EXAMPLE_Main.qml">../qml/scene/EXAMPLE_Main.qml</file>
+    </qresource>
+</RCC>

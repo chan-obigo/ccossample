@@ -1,0 +1,18 @@
+[Unit]
+Description=obigo_child
+Wants=weston.service
+Before=obigo_parent.service
+Requires=ccos-session-bus.service
+After=weston.service ccos-session-bus.service
+
+[Service]
+Type=simple
+Environment=XDG_RUNTIME_DIR=/run/user/0
+Environment=WAYLAND_DISPLAY=wayland-0
+WorkingDirectory=/ccos/apps/hmi/obigo_child
+ExecStart=/ccos/apps/hmi/obigo_child/obigo_child
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

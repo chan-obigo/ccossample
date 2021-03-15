@@ -1,0 +1,23 @@
+QMAKE_CXX.QT_COMPILER_STDCXX = 201402L
+QMAKE_CXX.QMAKE_GCC_MAJOR_VERSION = 7
+QMAKE_CXX.QMAKE_GCC_MINOR_VERSION = 3
+QMAKE_CXX.QMAKE_GCC_PATCH_VERSION = 0
+QMAKE_CXX.COMPILER_MACROS = \
+    QT_COMPILER_STDCXX \
+    QMAKE_GCC_MAJOR_VERSION \
+    QMAKE_GCC_MINOR_VERSION \
+    QMAKE_GCC_PATCH_VERSION
+QMAKE_CXX.INCDIRS = \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/include/c++/7.3.0 \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/include/c++/7.3.0/aarch64-agl-linux \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/include/c++/7.3.0/backward \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/x86_64-ccos-linux/usr/lib/aarch64-agl-linux/gcc/aarch64-agl-linux/7.3.0/include \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/lib64/gcc/aarch64-agl-linux/7.3.0/include \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/local/include \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/x86_64-ccos-linux/usr/lib/aarch64-agl-linux/gcc/aarch64-agl-linux/7.3.0/include-fixed \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/include
+QMAKE_CXX.LIBDIRS = \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/x86_64-ccos-linux/usr/lib/aarch64-agl-linux/gcc/aarch64-agl-linux/7.3.0 \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/lib64 \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/lib64/aarch64-agl-linux/7.3.0 \
+    /opt/poky-ivi-systemd/2.0.0/sysroots/aarch64-agl-linux/usr/lib64

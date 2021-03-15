@@ -1,0 +1,62 @@
+{
+    "appInfoVersion": "1.0",
+    "common": {
+        "appName": "bigbang",
+        "sdkVersion": "pony-2.0.0",
+        "vendor": "Obigo Inc.",
+        "author": "zeus.yoon",
+        "version": "1.0.0",
+        "buildDate": "2020-10-16",
+        "dependency": {
+            "ccOSServices": [
+
+            ],
+            "applications": [
+
+            ]
+        }
+    },
+    "appServices": {
+        "BIGBANG": {
+            "userClass" : "ExampleAppService",
+            "iac": {
+                "p2p": true,
+                "broadcast": true,
+                "subscribingServices":[ "EVENTMANAGER" ],
+                "subscribingMessages" : [ "APP_REQUEST_SHOW_IF_AVAILABLE", "SYSTEM_NOTIFY_AGREEMENT_READY_USERPROFILE" ],
+                "publishingMessages": [
+                    {
+                        "message" : "SYSTEM_NOTIFY_AGREEMENT_READY_USERPROFILE",
+                        "type" : "TO_ONE"
+                    },
+                    {
+                        "message" : "ExampleApp_to_ExampleManagerApp",
+                        "type" : "TO_ONE"
+                    }
+                ]
+            },
+            "windows": [{
+                    "screen": "FRONT_CENTER",
+                    "layer" : "application",
+                    "userClass" : "ExampleFrontWindow",
+                    "qmlUrl" : "qrc:/EXAMPLE_FrontWindow.qml"
+                }
+            ],
+            "appLayerPolicies": [{
+                    "screens": ["FRONT_CENTER"],
+                    "layoutInfo" : [{
+                            "type" : "scene",
+                            "ids" : ["EXAMPLE.Main"],
+                            "layouts" : ["full", "split"]
+                        },
+                        {
+                            "type" : "intent",
+                            "ids" : ["USER_PROFILE_WELCOME", "SPLIT_HANDLER"],
+                            "layouts" : ["full", "split"]
+                        }
+                    ]
+                }
+            ]
+       }
+   }
+}
