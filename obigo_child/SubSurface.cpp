@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "SubSurface.h"
+#include "EGLClient.h"
 
 extern struct wl_display *display;
 extern struct wl_compositor *compositor;
@@ -90,13 +91,20 @@ SubSurface::SubSurface() {
 SubSurface::~SubSurface() {}
 
 void SubSurface::CreateSurface(int32_t surfaceid) {
+#if 1
+    m_eglCleint = new EGLClient(compositor, WIDTH, HEIGHT);
+    m_eglCleint->initialize();
+    m_wlsurface =  m_eglCleint->get_wayland_surface();
+#else    
     m_wlsurface = wl_compositor_create_surface(compositor);
+#endif    
     m_ivisurface = ivi_application_surface_create(iviapplication, surfaceid, m_wlsurface);
     
     fprintf(stdout, "[ObigoChild] wl_compositor_create_surface : %p\n", m_wlsurface); fflush(stdout);
     fprintf(stdout, "[ObigoChild] ivi_application_surface_create : %p\n", m_ivisurface); fflush(stdout);
 
-    void *shm_data = create_window(m_wlsurface);
-    paint_pixels(static_cast<uint32_t*>(shm_data));
+    // void *shm_data = create_window(m_wlsurface);
+    // paint_pixels(static_cast<uint32_t*>(shm_data));
+    m_eglCleint->redraw(0);
     wl_display_flush(display);
 }

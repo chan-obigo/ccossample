@@ -10,3 +10,4 @@ $ cd output
 
 $ scp -r ./* root@[IP]:/
 $ ssh root@[IP] reboot
+
