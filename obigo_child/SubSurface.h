@@ -4,6 +4,8 @@
 #include <wayland-client-protocol.h>
 #include <ilm/ivi-application-client-protocol.h>
 
+class EGLClient;
+
 class SubSurface {
  public:
     SubSurface();
@@ -14,6 +16,7 @@ class SubSurface {
  private:
     struct wl_surface* m_wlsurface;
     struct ivi_surface* m_ivisurface;
+    EGLClient* m_eglCleint;
 };
 
 #endif  // _OBIGO_SUBSURFACE_H_
