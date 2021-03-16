@@ -1,4 +1,5 @@
 #include "obigo/ObigoTestStubImpl.h"
+#include "obigo/SubSurfaceManager.h"
 
 namespace v1 {
 namespace commonapi {
@@ -8,12 +9,11 @@ ObigoTestStubImpl::ObigoTestStubImpl() {}
 
 ObigoTestStubImpl::~ObigoTestStubImpl() {}
 
-void ObigoTestStubImpl::testFunction(const std::shared_ptr<CommonAPI::ClientId> _client, std::string _name, testFunctionReply_t _reply) {
+void ObigoTestStubImpl::CreateHSubSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, CreateHSubSurfaceReply_t _reply) {
     (void)_client;
-    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
-    fprintf(stdout, "[ObigoParent]::%s::%d::%s\n", __func__, __LINE__, _name.c_str()); fflush(stdout);
-    std::string message = "return";
-    _reply(message);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, _surface_id); fflush(stdout);
+    SubSurfaceManager::getInstance()->created(_surface_id);
+    _reply();
 }
 
 }  // namespace examples

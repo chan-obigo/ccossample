@@ -13,7 +13,6 @@ install:
 	cp obigo_parent/obigoparent_recipe/obigoparent/obigo_parent.service output/lib/systemd/system
 	cp obigo_parent/obigoparent_source/appinfo.json output/ccos/apps/hmi/obigo_parent
 	cp obigo_parent/obigoparent_source/build/obigo_parent output/ccos/apps/hmi/obigo_parent
-	cp obigo_child/obigo_child.service output/lib/systemd/system
 	cp obigo_child/obigo_child output/ccos/apps/hmi/obigo_child
 
 clean:

@@ -18,7 +18,7 @@ class ObigoProxy {
 
     void Connect();
 
-    void testFunction_IPC(const std::string& a_in, std::string* const a_out);
+    void CreateHSubSurface(const uint32_t& a_in);
 
  private:
     ObigoProxy();

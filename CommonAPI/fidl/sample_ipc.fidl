@@ -3,12 +3,9 @@ package commonapi.examples
 interface ObigoTest {
 	version { major 1 minor 0 }
 
-	method testFunction {
+	method CreateHSubSurface {
 		in {
-			String name
-		}
-		out {
-			String message
+			UInt32 surface_id
 		}
 	}	
 }

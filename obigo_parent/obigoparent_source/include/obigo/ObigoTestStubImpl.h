@@ -12,7 +12,7 @@ class ObigoTestStubImpl : public ObigoTestStubDefault {
     ObigoTestStubImpl();
     ~ObigoTestStubImpl();
 
-    void testFunction(const std::shared_ptr<CommonAPI::ClientId> _client, std::string _name, testFunctionReply_t _reply) override;
+    void CreateHSubSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, CreateHSubSurfaceReply_t _reply) override;
 };
 
 }  // namespace examples

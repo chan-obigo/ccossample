@@ -29,18 +29,11 @@ void ObigoProxy::Connect() {
     while (!m_proxy->isAvailable()) {
         usleep(10);
     }
-
-    std::string in_param("in param");
-    std::string out_param;
-    testFunction_IPC(in_param, &out_param);
 }
 
-void ObigoProxy::testFunction_IPC(const std::string& a_in, std::string* const a_out) {
+void ObigoProxy::CreateHSubSurface(const uint32_t& a_in) {
     CommonAPI::CallStatus callStatus;
-    std::string returnMessage;
-
-    m_proxy->testFunction(a_in, callStatus, returnMessage);
-    *a_out = returnMessage;
+    m_proxy->CreateHSubSurface(a_in, callStatus);
 }
 
 }  // namespace examples

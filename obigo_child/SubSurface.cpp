@@ -103,8 +103,12 @@ void SubSurface::CreateSurface(int32_t surfaceid) {
     fprintf(stdout, "[ObigoChild] wl_compositor_create_surface : %p\n", m_wlsurface); fflush(stdout);
     fprintf(stdout, "[ObigoChild] ivi_application_surface_create : %p\n", m_ivisurface); fflush(stdout);
 
-    // void *shm_data = create_window(m_wlsurface);
-    // paint_pixels(static_cast<uint32_t*>(shm_data));
+#if 1
     m_eglCleint->redraw(0);
+#else
+    void *shm_data = create_window(m_wlsurface);
+    paint_pixels(static_cast<uint32_t*>(shm_data));
+#endif
+
     wl_display_flush(display);
 }

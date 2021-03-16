@@ -4,6 +4,8 @@ After=homehmi.service appeventmanager.service ccos-session-bus.service obigo_chi
 
 [Service]
 Type=simple
+Environment=XDG_RUNTIME_DIR=/run/user/0
+Environment=WAYLAND_DISPLAY=wayland-0
 WorkingDirectory=/ccos/apps/hmi/obigo_parent
 ExecStart=/ccos/apps/hmi/obigo_parent/obigo_parent
 Restart=always
