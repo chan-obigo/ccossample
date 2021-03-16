@@ -14,9 +14,6 @@ int main(int argc, char *argv[]) {
     subSurfaceManager.Initiailze();
 
     subSurfaceManager.CreateSubSurface(27777);
-    subSurfaceManager.CreateSubSurface(27778);
-    subSurfaceManager.CreateSubSurface(27779);
-    subSurfaceManager.CreateSubSurface(27780);
 
     // v1::commonapi::examples::ObigoProxy::getInstance()->Connect();
 
