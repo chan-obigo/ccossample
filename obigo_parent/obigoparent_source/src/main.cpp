@@ -9,7 +9,6 @@
 #include <QQmlContext>
 
 #include "ExampleAppService.h"
-#include "LogContext.h"
 #include "obigo/ObigoStub.h"
 
 using namespace ccos;
@@ -17,19 +16,18 @@ using namespace ccos::appcore;
 
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
-    Logger::initialize("EXAM", "Example Application");
 
-    v1::commonapi::examples::ObigoStub::getInstance()->Connect();
+    // v1::commonapi::examples::ObigoStub::getInstance()->Connect();
 
     appcommon::AppEngine engine;
 
     if (engine.init() == false) {
-        HError() << "AppEngine init failed";
+        fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
         return -1;
     }
 
     if (engine.start() == false) {
-        HError() << "AppEngine start failed";
+        fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
         return -1;
     }
 

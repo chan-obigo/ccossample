@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     subSurfaceManager.CreateSubSurface(27779);
     subSurfaceManager.CreateSubSurface(27780);
 
-    v1::commonapi::examples::ObigoProxy::getInstance()->Connect();
+    // v1::commonapi::examples::ObigoProxy::getInstance()->Connect();
 
     fprintf(stdout, "[ObigoChild] waiting\n"); fflush(stdout);
     int ret = 0;

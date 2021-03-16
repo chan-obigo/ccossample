@@ -46,7 +46,6 @@ INCLUDEPATH += \
 
 SOURCES += \
     $$SOURCEPATH/main.cpp \
-    $$SOURCEPATH/LogContext.cpp \
     $$SOURCEPATH/ExampleAppService.cpp \
     $$SOURCEPATH/window/ExampleFrontWindow.cpp \
     $$SOURCEPATH/scene/SceneExampleMain.cpp \
@@ -59,7 +58,6 @@ SOURCES += \
 
 
 HEADERS += \
-    $$HEADERPATH/LogContext.h \
     $$HEADERPATH/ExampleAppService.h \
     $$HEADERPATH/window/ExampleFrontWindow.h \
     $$HEADERPATH/scene/SceneExampleMain.h \

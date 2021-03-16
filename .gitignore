@@ -1,0 +1,6 @@
+CommonAPI/cgen/commonapi-generator/configuration/org.eclipse.osgi/
+CommonAPI/cgen/commonapi_dbus_generator/configuration/org.eclipse.osgi/
+CommonAPI/src-gen/
+obigo_child/obigo_child
+obigo_parent/obigoparent_source/build/
+output/
