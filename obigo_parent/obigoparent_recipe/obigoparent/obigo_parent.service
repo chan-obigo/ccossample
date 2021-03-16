@@ -1,6 +1,6 @@
 [Unit]
 Description=obigo_parent
-After=homehmi.service appeventmanager.service
+After=homehmi.service appeventmanager.service ccos-session-bus.service obigo_child.service
 
 [Service]
 Type=simple

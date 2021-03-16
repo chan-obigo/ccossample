@@ -17,7 +17,7 @@ using namespace ccos::appcore;
 int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
 
-    // v1::commonapi::examples::ObigoStub::getInstance()->Connect();
+    v1::commonapi::examples::ObigoStub::getInstance()->Connect();
 
     appcommon::AppEngine engine;
 

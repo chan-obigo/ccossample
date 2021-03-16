@@ -24,7 +24,7 @@ void ObigoProxy::Connect() {
     std::string instance = "commonapi.examples.ObigoTest";
     std::string connection = "client-sample";
 
-    std::shared_ptr<ObigoTestProxyDefault> m_proxy = runtime->buildProxy<ObigoTestProxy>(domain, instance, connection);
+    m_proxy = runtime->buildProxy<ObigoTestProxy>(domain, instance, connection);
 
     while (!m_proxy->isAvailable()) {
         usleep(10);
