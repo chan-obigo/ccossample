@@ -1,8 +1,6 @@
 [Unit]
 Description=obigo_parent
-Wants=weston.service ccos-session-bus.service
-Before=homehmi.service
-After=weston.service ccos-session-bus.service appeventmanager.service obigo_child.service
+After=homehmi.service appeventmanager.service
 
 [Service]
 Type=simple

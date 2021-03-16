@@ -38,19 +38,19 @@ void SubSurfaceManager::show(const ccos::window::HWindowId& a_winID) {
                                                          mSubSurface3->getHandle(),
                                                          mSubSurface4->getHandle() };
 
-    // ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
+    ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
 
-    // mSubSurface1->setSourceRectangle({0, 0, 250, 250});
-    // mSubSurface1->setDestRectangle({500, 250, 250, 250});
+    mSubSurface1->setSourceRectangle({0, 0, 250, 250});
+    mSubSurface1->setDestRectangle({500, 250, 250, 250});
 
-    // mSubSurface2->setSourceRectangle({0, 0, 250, 250});
-    // mSubSurface2->setDestRectangle({800, 250, 250, 250});
+    mSubSurface2->setSourceRectangle({0, 0, 250, 250});
+    mSubSurface2->setDestRectangle({800, 250, 250, 250});
 
-    // mSubSurface3->setSourceRectangle({0, 0, 250, 250});
-    // mSubSurface3->setDestRectangle({1100, 250, 250, 250});
+    mSubSurface3->setSourceRectangle({0, 0, 250, 250});
+    mSubSurface3->setDestRectangle({1100, 250, 250, 250});
 
-    // mSubSurface4->setSourceRectangle({0, 0, 250, 250});
-    // mSubSurface4->setDestRectangle({1400, 250, 250, 250});
+    mSubSurface4->setSourceRectangle({0, 0, 250, 250});
+    mSubSurface4->setDestRectangle({1400, 250, 250, 250});
 }
 
 void SubSurfaceManager::hide(const ccos::window::HWindowId& a_winID) {

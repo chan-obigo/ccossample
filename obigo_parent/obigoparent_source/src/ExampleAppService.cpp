@@ -23,18 +23,21 @@ ccos::HBool ExampleAppService::onStart() {
 void ExampleAppService::onIACMessageReceived(const std::string& senderId, const std::string& msgId,
                                                     const std::vector<ccos::HByte>& msgData) {
     (void)(senderId);
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     if (msgId == "SYSTEM_NOTIFY_AGREEMENT_READY_USERPROFILE") {
-        fprintf(stdout, "[ObigoParent]::%s::%d::agreement_ready_ExampleAPP\n", __func__, __LINE__); fflush(stdout);
-      }
+        fprintf(stdout, "[ObigoParent]::%s::%d::SYSTEM_NOTIFY_AGREEMENT_READY_USERPROFILE\n", __func__, __LINE__); fflush(stdout);
+    }
 
-    fprintf(stdout, "[ObigoParent]::%s::%d::SendMessage_ExampleAPP\n", __func__, __LINE__); fflush(stdout);
-
-    ccos::HByte val1 = 0x01;
-    std::vector<ccos::HByte> _msgData;
-    _msgData.push_back(val1);
-
-    fprintf(stdout, "[ObigoParent]::%s::%d::ExampleApp_to_ExampleManagerApp\n", __func__, __LINE__); fflush(stdout);
+    if (msgId == "APP_REQUEST_SHOW_IF_AVAILABLE") {
+        fprintf(stdout, "[ObigoParent]::%s::%d::APP_REQUEST_SHOW_IF_AVAILABLE\n", __func__, __LINE__); fflush(stdout);
+        auto userDataJson = nlohmann::json::from_cbor(msgData);
+        std::string appServiceToShow = userDataJson["service_type"];
+        std::string intentToShow = userDataJson["data"]["id"];
+        requestShowApplication(ccos::HScreenType::FRONT_CENTER, "bigbang", appServiceToShow,
+                               ccos::app::manager::appeventmanager::AppLayerIdType::INTENT,
+                               intentToShow, std::string());
+    }
 }
 
 void ExampleAppService::onSessionStateChanged(const ccos::lifecycle::HLifecycleSession& sessionName,

@@ -27,6 +27,10 @@ HBool ExampleFrontWindow::onCreate() {
 void ExampleFrontWindow::onLoaded() {
     fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     m_qquickWindow = const_cast<QQuickWindow*>(&getQWindow());
+
+    QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn1"), SIGNAL(createSignal()), this, SLOT(createSlot()));
+    QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn2"), SIGNAL(showSignal()), this, SLOT(showSlot()));
+    QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn3"), SIGNAL(hideSignal()), this, SLOT(hideSlot()));
 }
 
 void ExampleFrontWindow::onUnLoaded() { m_qquickWindow = nullptr; }
