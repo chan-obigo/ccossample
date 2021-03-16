@@ -1,4 +1,5 @@
 #include "obigo/SubSurfaceManager.h"
+#include "obigo/ObigoStub.h"
 
 #include <unistd.h>
 
@@ -7,6 +8,7 @@ SubSurfaceManager* SubSurfaceManager::m_pThis = nullptr;
 SubSurfaceManager::SubSurfaceManager() {
     isCreated = false;
     subSurfaceCount = 0;
+    isShowed = false;
 }
 
 SubSurfaceManager::~SubSurfaceManager() {}
@@ -76,12 +78,22 @@ void SubSurfaceManager::show(const ccos::window::HWindowId& a_winID) {
 
     mSubSurface2->setSourceRectangle({0, 0, 250, 250});
     mSubSurface2->setDestRectangle({800, 250, 250, 250});
+    isShowed = true;
 }
 
-void SubSurfaceManager::hide(const ccos::window::HWindowId& a_winID) {
-    if (subSurfaceCount != 2) {
-        fprintf(stdout, "[ObigoParent]::%s::%d::subsurface is not created, try again\n", __func__, __LINE__); fflush(stdout);
+void SubSurfaceManager::raiseIssue(const ccos::window::HWindowId& a_winID) {
+    if (isShowed = false) {
+        fprintf(stdout, "[ObigoParent]::%s::%d::subsurface is not shown, try again\n", __func__, __LINE__); fflush(stdout);
         return;
     }
-    ccos::window::HSubSurfaceController::getInstance()->disconnect(a_winID);
+
+    // disconnect HSubsurface 2
+    std::vector<ccos::window::HSubSurfaceHandle> zOrder{ mSubSurface1->getHandle()};
+    ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
+
+    // destroy HSubsurface 2
+    mSubSurface2.reset();
+
+    // destroy HSubsurface 2's process
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyChildEvent(2);
 }

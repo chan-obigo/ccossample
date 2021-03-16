@@ -7,6 +7,11 @@ interface ObigoTest {
 		in {
 			UInt32 surface_id
 		}
-	}	
-}
+	}
 
+	broadcast DestroyChild {
+		out {
+			UInt32 surface_id
+		}
+	}
+}

@@ -12,7 +12,7 @@ class SubSurfaceManager {
     void create();
     void created(const uint32_t surface_id);
     void show(const ccos::window::HWindowId& a_winID);
-    void hide(const ccos::window::HWindowId& a_winID);
+    void raiseIssue(const ccos::window::HWindowId& a_winID);
 
  private:
     SubSurfaceManager();
@@ -28,6 +28,7 @@ class SubSurfaceManager {
 
     bool isCreated;
     int subSurfaceCount;
+    bool isShowed;
 };
 
 #endif  // _OBIGO_SURFACEMANAGER_H_

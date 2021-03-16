@@ -29,6 +29,10 @@ void ObigoProxy::Connect() {
     while (!m_proxy->isAvailable()) {
         usleep(10);
     }
+
+    m_proxy->getDestroyChildEvent().subscribe([&](const int32_t& surface_id) {
+        fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    });
 }
 
 void ObigoProxy::CreateHSubSurface(const uint32_t& a_in) {

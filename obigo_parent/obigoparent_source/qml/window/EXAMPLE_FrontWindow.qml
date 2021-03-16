@@ -67,11 +67,11 @@ HWindow {
         width: 320; height: 100
         color: "lightgray"
         objectName: "MyBtn3"
-        signal hideSignal()
+        signal raiseIssueSignal()
 
         Text {
             id: text3
-            text: "Hide"
+            text: "Raise Issue"
             y: 30
             anchors.horizontalCenter: page.horizontalCenter
             font.pointSize: 24; font.bold: true
@@ -80,7 +80,7 @@ HWindow {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                btn_hide.hideSignal()
+                btn_hide.raiseIssueSignal()
             }
         }
     }

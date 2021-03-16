@@ -28,6 +28,10 @@ void ObigoStub::Connect() {
     runtime->registerService(domain, instance, m_service, connection);
 }
 
+void ObigoStub::fireDestroyChildEvent(uint32_t surface_id) {
+    m_service->fireDestroyChildEvent(surface_id);
+}
+
 }  // namespace examples
 }  // namespace commonapi
 }  // namespace v1

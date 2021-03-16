@@ -30,7 +30,7 @@ void ExampleFrontWindow::onLoaded() {
 
     QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn1"), SIGNAL(createSignal()), this, SLOT(createSlot()));
     QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn2"), SIGNAL(showSignal()), this, SLOT(showSlot()));
-    QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn3"), SIGNAL(hideSignal()), this, SLOT(hideSlot()));
+    QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn3"), SIGNAL(raiseIssueSignal()), this, SLOT(raiseIssueSlot()));
 }
 
 void ExampleFrontWindow::onUnLoaded() { m_qquickWindow = nullptr; }
@@ -82,9 +82,9 @@ void ExampleFrontWindow::showSlot() {
     SubSurfaceManager::getInstance()->show(hWindowId);
 }
 
-void ExampleFrontWindow::hideSlot() {
+void ExampleFrontWindow::raiseIssueSlot() {
     fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 
     ccos::window::HWindowId hWindowId = const_cast<ccos::window::HWindow&>(getHWindow()).getWindowId();
-    SubSurfaceManager::getInstance()->hide(hWindowId);
+    SubSurfaceManager::getInstance()->raiseIssue(hWindowId);
 }

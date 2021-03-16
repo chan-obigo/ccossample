@@ -27,7 +27,7 @@ class ExampleFrontWindow : public appcommon::WindowBase {
  public slots:
     void createSlot();
     void showSlot();
-    void hideSlot();
+    void raiseIssueSlot();
 
  private:
     QQuickWindow* m_qquickWindow = nullptr;

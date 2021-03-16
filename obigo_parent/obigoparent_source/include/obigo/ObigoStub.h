@@ -15,6 +15,7 @@ class ObigoStub {
     static ObigoStub* getInstance();
 
     void Connect();
+    void fireDestroyChildEvent(uint32_t surface_id);
 
  private:
     ObigoStub();
