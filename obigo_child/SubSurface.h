@@ -12,11 +12,13 @@ class SubSurface {
     ~SubSurface();
 
     void CreateSurface(int32_t surfaceid);
+    void redraw();
 
  private:
     struct wl_surface* m_wlsurface;
     struct ivi_surface* m_ivisurface;
     EGLClient* m_eglCleint;
+    void *shm_data;
 };
 
 #endif  // _OBIGO_SUBSURFACE_H_

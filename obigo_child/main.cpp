@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
     while (1) {
         ret = wl_display_dispatch(display);
         ret = wl_display_dispatch_pending(display);
-        sleep(1);
+        subSurfaceManager.Draw();
     }
 
     return 0;

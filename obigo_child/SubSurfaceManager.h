@@ -12,6 +12,7 @@ class SubSurfaceManager {
 
     void Initiailze();
     void CreateSubSurface(int32_t surfaceid);
+    void Draw();
 
  private:
     std::vector<SubSurface*> m_subSurfaces;

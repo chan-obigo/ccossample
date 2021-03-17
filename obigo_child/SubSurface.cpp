@@ -86,13 +86,20 @@ static void paint_pixels(uint32_t *pixel) {
 SubSurface::SubSurface() {
     m_wlsurface = nullptr;
     m_ivisurface = nullptr;
+    m_eglCleint = nullptr;
 }
 
-SubSurface::~SubSurface() {}
+SubSurface::~SubSurface() {
+    if (m_eglCleint) {
+        delete m_eglCleint;
+    }
+}
+
+#define EGL_ONLY
 
 void SubSurface::CreateSurface(int32_t surfaceid) {
-#if 1
-    m_eglCleint = new EGLClient(compositor, WIDTH, HEIGHT);
+#if defined(EGL_ONLY)
+    m_eglCleint = new EGLClient(WIDTH, HEIGHT);
     m_eglCleint->initialize();
     m_wlsurface =  m_eglCleint->get_wayland_surface();
 #else    
@@ -100,15 +107,20 @@ void SubSurface::CreateSurface(int32_t surfaceid) {
 #endif    
     m_ivisurface = ivi_application_surface_create(iviapplication, surfaceid, m_wlsurface);
     
-    fprintf(stdout, "[ObigoChild] wl_compositor_create_surface : %p\n", m_wlsurface); fflush(stdout);
-    fprintf(stdout, "[ObigoChild] ivi_application_surface_create : %p\n", m_ivisurface); fflush(stdout);
-
-#if 1
+#if defined(EGL_ONLY)
     m_eglCleint->redraw(0);
 #else
-    void *shm_data = create_window(m_wlsurface);
+    shm_data = create_window(m_wlsurface);
     paint_pixels(static_cast<uint32_t*>(shm_data));
 #endif
-
     wl_display_flush(display);
+}
+
+void SubSurface::redraw() {
+#if defined(EGL_ONLY)
+    m_eglCleint->redraw(0);
+    wl_display_flush(display);
+#else    
+    paint_pixels(static_cast<uint32_t*>(shm_data));
+#endif    
 }

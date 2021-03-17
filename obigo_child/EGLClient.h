@@ -80,11 +80,9 @@ class EGLClient {
  	bool weston_check_egl_extension(const char *extensions, const char *extension);
     EGLDisplay weston_platform_get_egl_display(EGLenum platform, void *native_display,
  				const EGLint *attrib_list);
-    EGLSurface weston_platform_create_egl_surface(EGLDisplay dpy, EGLConfig config,
-				   void *native_window,
-				   const EGLint *attrib_list);
     EGLBoolean weston_platform_destroy_egl_surface(EGLDisplay display,
 				    EGLSurface surface);
+    void *weston_platform_get_egl_proc_address(const char *address);
 
     void init_egl(struct display *display, struct window *window);
     
@@ -99,7 +97,7 @@ class EGLClient {
     wl_surface* get_wayland_surface() { return m_window.surface; }
 
     EGLClient();
-    EGLClient(wl_compositor *compositor, int width, int height);
+    EGLClient(int width, int height);
     virtual ~EGLClient() {}
 
  private:

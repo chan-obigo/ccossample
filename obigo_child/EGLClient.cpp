@@ -1,5 +1,10 @@
 #include "EGLClient.h"
 
+extern struct wl_shell *shell;
+extern struct wl_display *display;
+extern struct wl_compositor *compositor;
+
+
 static const char *vert_shader_text =
 	"uniform mat4 rotation;\n"
 	"attribute vec4 pos;\n"
@@ -46,14 +51,23 @@ EGLClient::weston_check_egl_extension(const char *extensions, const char *extens
 	return false;
 }
 
+void *EGLClient::weston_platform_get_egl_proc_address(const char *address)
+{
+	const char *extensions = eglQueryString(EGL_NO_DISPLAY, EGL_EXTENSIONS);
+
+	if (extensions
+	    && (strstr(extensions, "EGL_EXT_platform_wayland")
+	        || strstr(extensions, "EGL_KHR_platform_wayland"))) {
+		return (void *) eglGetProcAddress(address);
+	}
+
+	return NULL;
+}
 
 EGLDisplay
 EGLClient::weston_platform_get_egl_display(EGLenum platform, void *native_display,
 				const EGLint *attrib_list)
 {
-#if 1
-	return eglGetDisplay(EGL_DEFAULT_DISPLAY);
-#else	
 	static PFNEGLGETPLATFORMDISPLAYEXTPROC get_platform_display = NULL;
 
 	if (!get_platform_display) {
@@ -67,26 +81,12 @@ EGLClient::weston_platform_get_egl_display(EGLenum platform, void *native_displa
 					    native_display, attrib_list);
 
 	return eglGetDisplay((EGLNativeDisplayType) native_display);
-#endif	
 }
 
 
 void
 EGLClient::init_egl(struct display *display, struct window *window)
 {
-	static const struct {
-		char *extension, *entrypoint;
-	} swap_damage_ext_to_entrypoint[] = {
-		{
-			.extension = "EGL_EXT_swap_buffers_with_damage",
-			.entrypoint = "eglSwapBuffersWithDamageEXT",
-		},
-		{
-			.extension = "EGL_KHR_swap_buffers_with_damage",
-			.entrypoint = "eglSwapBuffersWithDamageKHR",
-		},
-	};
-
 	static const EGLint context_attribs[] = {
 		EGL_CONTEXT_CLIENT_VERSION, 2,
 		EGL_NONE
@@ -94,7 +94,7 @@ EGLClient::init_egl(struct display *display, struct window *window)
 	const char *extensions;
 
 	EGLint config_attribs[] = {
-		EGL_SURFACE_TYPE, EGL_STREAM_BIT_KHR | EGL_PBUFFER_BIT,
+		EGL_SURFACE_TYPE, EGL_STREAM_BIT_KHR,
 		EGL_RED_SIZE, 8,
 		EGL_GREEN_SIZE, 8,
 		EGL_BLUE_SIZE, 8,
@@ -107,8 +107,8 @@ EGLClient::init_egl(struct display *display, struct window *window)
 	EGLConfig *configs;
 	EGLBoolean ret;
 
-//	if (window->opaque || window->buffer_size == 16)
-//		config_attribs[9] = 0;
+	if (window->opaque || window->buffer_size == 16)
+		config_attribs[9] = 0;
 
 	display->egl.dpy =
 		weston_platform_get_egl_display(EGL_PLATFORM_WAYLAND_KHR,
@@ -153,21 +153,11 @@ EGLClient::init_egl(struct display *display, struct window *window)
 	display->swap_buffers_with_damage = NULL;
 	extensions = eglQueryString(display->egl.dpy, EGL_EXTENSIONS);
 	if (extensions &&
-	    weston_check_egl_extension(extensions, "EGL_EXT_buffer_age")) {
-		for (i = 0; i < (int) ARRAY_LENGTH(swap_damage_ext_to_entrypoint); i++) {
-			if (weston_check_egl_extension(extensions,
-						       swap_damage_ext_to_entrypoint[i].extension)) {
-				/* The EXTPROC is identical to the KHR one */
+	    strstr(extensions, "EGL_EXT_swap_buffers_with_damage") &&
+	    strstr(extensions, "EGL_EXT_buffer_age"))
 				display->swap_buffers_with_damage =
 					(PFNEGLSWAPBUFFERSWITHDAMAGEEXTPROC)
-					eglGetProcAddress(swap_damage_ext_to_entrypoint[i].entrypoint);
-				break;
-			}
-		}
-	}
-
-	if (display->swap_buffers_with_damage)
-		printf("has EGL_EXT_buffer_age and %s\n", swap_damage_ext_to_entrypoint[i].extension);
+			eglGetProcAddress("eglSwapBuffersWithDamageEXT");
 
 }
 
@@ -241,30 +231,6 @@ EGLClient::init_gl(struct window *window)
 		glGetUniformLocation(program, "rotation");
 }
 
-EGLSurface EGLClient::weston_platform_create_egl_surface(EGLDisplay dpy, EGLConfig config,
-				   void *native_window,
-				   const EGLint *attrib_list)
-{
-#if 0	
-	static PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC
-		create_platform_window = NULL;
-
-	if (!create_platform_window) {
-		create_platform_window = (PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC)
-            weston_platform_get_egl_proc_address(
-                "eglCreatePlatformWindowSurfaceEXT");
-	}
-
-	if (create_platform_window)
-		return create_platform_window(dpy, config,
-					      native_window,
-					      attrib_list);
-#endif
-	return eglCreateWindowSurface(dpy, config,
-				      (EGLNativeWindowType) native_window,
-				      attrib_list);
-}
-
 EGLBoolean EGLClient::weston_platform_destroy_egl_surface(EGLDisplay display,
 				    EGLSurface surface)
 {
@@ -282,13 +248,11 @@ void EGLClient::create_surface(struct window *window)
 		wl_egl_window_create(window->surface,
 				     window->geometry.width,
 				     window->geometry.height);
-	window->egl_surface =
-		weston_platform_create_egl_surface(display->egl.dpy,
-						   display->egl.conf,
-						   window->native, NULL);
 
-	window->wait_for_configure = true;
-	wl_surface_commit(window->surface);
+	window->egl_surface =  eglCreateWindowSurface(display->egl.dpy, display->egl.conf,
+				      (EGLNativeWindowType) window->native,
+				      NULL);
+
 
 	ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
@@ -342,12 +306,6 @@ void EGLClient::redraw(uint32_t time)
 	EGLint rect[4];
 	EGLint buffer_age = 0;
 	struct timeval tv;
-
-	// assert(window->callback == callback);
-	// window->callback = NULL;
-
-	// if (callback)
-	// 	wl_callback_destroy(callback);
 
 	EGLBoolean ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
@@ -426,9 +384,9 @@ EGLClient::EGLClient() {
 
 }
 
-EGLClient::EGLClient(wl_compositor *compositor, int width, int height) {
+EGLClient::EGLClient(int width, int height) {
 
-	m_window.opaque = 1;
+	m_window.opaque = 0;
 	m_window.buffer_size = 32;
 
 	m_window.display = &m_display;
@@ -437,6 +395,7 @@ EGLClient::EGLClient(wl_compositor *compositor, int width, int height) {
 	m_window.geometry.width = width;
 	m_window.geometry.height = height;
 
+	m_display.display = display;
     m_display.compositor = compositor;
 
 }

@@ -54,3 +54,9 @@ void SubSurfaceManager::CreateSubSurface(int32_t surfaceid) {
 
     m_subSurfaces.push_back(pSubSurface);
 }
+
+void SubSurfaceManager::Draw() {
+    for (auto surface : m_subSurfaces) {
+        surface->redraw();
+    }
+}
