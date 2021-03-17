@@ -32,17 +32,7 @@ void SubSurfaceManager::create() {
         fprintf(stdout, "[ObigoParent]::%s::%d::Fork Error\n", __func__, __LINE__); fflush(stdout);
         exit(0);
     } else if (pid == 0) {  // child
-        execl("/ccos/apps/hmi/obigo_child/obigo_child", "/ccos/apps/hmi/obigo_child/obigo_child", "1", nullptr);
-    } else {
-        // parent noting to do
-    }
-
-    pid = fork();
-    if (pid < 0) {
-        fprintf(stdout, "[ObigoParent]::%s::%d::Fork Error\n", __func__, __LINE__); fflush(stdout);
-        exit(0);
-    } else if (pid == 0) {  // child
-        execl("/ccos/apps/hmi/obigo_child/obigo_child", "/ccos/apps/hmi/obigo_child/obigo_child", "2", nullptr);
+        execl("/ccos/apps/hmi/obigo_child/obigo_child", "/ccos/apps/hmi/obigo_child/obigo_child", nullptr);
     } else {
         // parent noting to do
     }
