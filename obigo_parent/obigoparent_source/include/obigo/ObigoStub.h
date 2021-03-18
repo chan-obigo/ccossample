@@ -15,6 +15,8 @@ class ObigoStub {
     static ObigoStub* getInstance();
 
     void Connect();
+    void fireCreateApplicationEvent();
+    void fireDestroyApplicationEvent(uint32_t surface_id);
     void fireDestroyIviSurfaceEvent(uint32_t surface_id);
     void fireDestroyWlSurfaceEvent(uint32_t surface_id);
     void fireDestroyWlEglSurfaceEvent(uint32_t surface_id);

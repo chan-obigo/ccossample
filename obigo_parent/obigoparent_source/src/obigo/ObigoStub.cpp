@@ -18,6 +18,7 @@ ObigoStub* ObigoStub::getInstance() {
 }
 
 void ObigoStub::Connect() {
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     std::shared_ptr<CommonAPI::Runtime> runtime = CommonAPI::Runtime::get();
 
     std::string domain = "local";
@@ -26,6 +27,15 @@ void ObigoStub::Connect() {
 
     m_service = std::make_shared<ObigoTestStubImpl>();
     runtime->registerService(domain, instance, m_service, connection);
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
+}
+
+void ObigoStub::fireCreateApplicationEvent() {
+    m_service->fireCreateApplicationEvent();
+}
+
+void ObigoStub::fireDestroyApplicationEvent(uint32_t surface_id) {
+    m_service->fireDestroyApplicationEvent(surface_id);
 }
 
 void ObigoStub::fireDestroyIviSurfaceEvent(uint32_t surface_id) {

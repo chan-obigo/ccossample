@@ -21,6 +21,7 @@ ExampleFrontWindow::~ExampleFrontWindow() {}
 
 HBool ExampleFrontWindow::onCreate() {
     fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
+
     return true;
 }
 
@@ -31,6 +32,9 @@ void ExampleFrontWindow::onLoaded() {
     QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn1"), SIGNAL(createSignal()), this, SLOT(createSlot()));
     QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn2"), SIGNAL(showSignal()), this, SLOT(showSlot()));
     QObject::connect(m_qquickWindow->findChild<QObject*>("MyBtn3"), SIGNAL(raiseIssueSignal()), this, SLOT(raiseIssueSlot()));
+
+    ccos::window::HWindowId hWindowId = const_cast<ccos::window::HWindow&>(getHWindow()).getWindowId();
+    SubSurfaceManager::getInstance()->setWinID(hWindowId);
 }
 
 void ExampleFrontWindow::onUnLoaded() { m_qquickWindow = nullptr; }

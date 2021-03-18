@@ -1,0 +1,16 @@
+[Unit]
+Description=obigo_child
+After=homehmi.service appeventmanager.service ccos-session-bus.service
+
+[Service]
+Type=simple
+Environment=XDG_RUNTIME_DIR=/run/user/0
+Environment=WAYLAND_DISPLAY=wayland-0
+WorkingDirectory=/ccos/apps/hmi/obigo_child
+ExecStart=/ccos/apps/hmi/obigo_child/obigo_child
+Restart=always
+RestartSec=500
+
+[Install]
+WantedBy=multi-user.target
+

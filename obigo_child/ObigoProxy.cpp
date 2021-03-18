@@ -1,5 +1,9 @@
 #include "ObigoProxy.h"
 
+extern void CreateApplication();
+extern void DestroyApplication(const int32_t& surface_id);
+
+
 namespace v1 {
 namespace commonapi {
 namespace examples {
@@ -26,35 +30,40 @@ void ObigoProxy::Connect() {
 
     m_proxy = runtime->buildProxy<ObigoTestProxy>(domain, instance, connection);
 
+    fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     while (!m_proxy->isAvailable()) {
         usleep(10);
     }
 
+    m_proxy->getCreateApplicationEvent().subscribe(CreateApplication);
+    m_proxy->getDestroyApplicationEvent().subscribe(DestroyApplication);
+
+    fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     // Followings lambda functions are not run on main thread
     m_proxy->getDestroyIviSurfaceEvent().subscribe([&](const int32_t& surface_id) {
         // DOTO () - Please Destroy surface_id's ivi surface
-        fprintf(stdout, "[ObigoChild]::DestroyIviSurfaceEvent::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+        fprintf(stdout, "[ObigoChild]::DestroyIviSurfaceEvent::%d::%d\n",  __LINE__, surface_id); fflush(stdout);
     });
 
     m_proxy->getDestroyWlSurfaceEvent().subscribe([&](const int32_t& surface_id) {
         // DOTO () - Please Destroy surface_id's wl surface
-        fprintf(stdout, "[ObigoChild]::DestroyWlSurfaceEvent::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+        fprintf(stdout, "[ObigoChild]::DestroyWlSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
     });
 
     m_proxy->getDestroyWlEglSurfaceEvent().subscribe([&](const int32_t& surface_id) {
         // DOTO () - Please Destroy surface_id's wl egl surface
-        fprintf(stdout, "[ObigoChild]::DestroyWlEglSurfaceEvent::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+        fprintf(stdout, "[ObigoChild]::DestroyWlEglSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
     });
 
     m_proxy->getDestroyEglSurfaceEvent().subscribe([&](const int32_t& surface_id) {
         // DOTO () - Please Destroy surface_id's egl surface
-        fprintf(stdout, "[ObigoChild]::DestroyEglSurfaceEvent::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+        fprintf(stdout, "[ObigoChild]::DestroyEglSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
     });
 
     m_proxy->getMakeCurrentNoSurfaceEvent().subscribe([&](const int32_t& surface_id) {
         // DOTO () - Turn off MakeCurrent for surface_id
         // The other surface must be in makecurrent state.
-        fprintf(stdout, "[ObigoChild]::MakeCurrentNoSurfaceEvent::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+        fprintf(stdout, "[ObigoChild]::MakeCurrentNoSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
     });
 }
 

@@ -9,6 +9,16 @@ interface ObigoTest {
 		}
 	}
 
+	broadcast CreateApplication {
+
+	}
+
+	broadcast DestroyApplication {
+		out {
+			UInt32 surface_id
+		}
+	}
+
 	broadcast DestroyIviSurface {
 		out {
 			UInt32 surface_id

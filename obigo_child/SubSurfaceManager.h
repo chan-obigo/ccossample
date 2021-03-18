@@ -1,7 +1,7 @@
 #ifndef _OBIGO_SUBSURFACEMANAGER_H_
 #define _OBIGO_SUBSURFACEMANAGER_H_
 
-#include <vector>
+#include <map>
 
 #include "SubSurface.h"
 
@@ -11,11 +11,19 @@ class SubSurfaceManager {
     ~SubSurfaceManager();
 
     void Initiailze();
-    void CreateSubSurface(int32_t surfaceid);
+    void CreateSubSurface();
+    void DestroySubSurface(int surface_id);
     void Draw();
+    int GetEmptySurfaceId() { return m_currentSurfaceIndex++; }
+    SubSurface* GetActiveSurface() { return m_activeSurface; }
+    SubSurface* GetLatestCreatedSurface();
 
  private:
-    std::vector<SubSurface*> m_subSurfaces;
+    std::map<int, SubSurface*> m_subSurfaces;
+    static constexpr int m_startSurfaceIndex = 10000;
+    int m_currentSurfaceIndex;
+    SubSurface* m_activeSurface;
+    SubSurface* m_createdSurface;
 };
 
 #endif  // _OBIGO_SUBSURFACEMANAGER_H_

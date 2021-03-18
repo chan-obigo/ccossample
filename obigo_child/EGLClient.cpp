@@ -123,7 +123,7 @@ EGLClient::init_egl(struct display *display, struct window *window)
 	if (!eglGetConfigs(display->egl.dpy, NULL, 0, &count) || count < 1)
 		assert(0);
 
-	configs = calloc(count, sizeof *configs);
+	configs = static_cast<void **>(calloc(count, sizeof *configs));
 	assert(configs);
 
 	ret = eglChooseConfig(display->egl.dpy, config_attribs,
@@ -352,7 +352,7 @@ void EGLClient::redraw(uint32_t time)
 	glDisableVertexAttribArray(window->gl.pos);
 	glDisableVertexAttribArray(window->gl.col);
 
-	usleep(window->delay);
+//	usleep(window->delay);
 
 	if (window->opaque || window->fullscreen) {
 		region = wl_compositor_create_region(window->display->compositor);

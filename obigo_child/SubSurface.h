@@ -12,13 +12,17 @@ class SubSurface {
     ~SubSurface();
 
     void CreateSurface(int32_t surfaceid);
-    void redraw();
+    void Draw();
+    int GetSurfaceId() { return m_surfaceId; }
+    bool Shown() { return m_wasShown; }
+    bool setShown(bool shown) { m_wasShown = shown; }
 
  private:
     struct wl_surface* m_wlsurface;
     struct ivi_surface* m_ivisurface;
     EGLClient* m_eglCleint;
-    void *shm_data;
+    int m_surfaceId;
+    bool m_wasShown;
 };
 
 #endif  // _OBIGO_SUBSURFACE_H_

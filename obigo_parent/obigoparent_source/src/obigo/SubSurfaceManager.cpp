@@ -5,10 +5,25 @@
 
 SubSurfaceManager* SubSurfaceManager::m_pThis = nullptr;
 
+
+SubSurfaceManager::SubSurfaceInfo::SubSurfaceInfo() {
+    subsurfaceListener = nullptr;
+    rect = nullptr;
+    isShow = false;
+}
+
+SubSurfaceManager::SubSurfaceInfo::~SubSurfaceInfo() {
+    if (rect) {
+        rect->used = false;
+    }
+    if (subsurfaceListener) {
+        delete subsurfaceListener;
+    }
+}
+
 SubSurfaceManager::SubSurfaceManager() {
-    isCreated = false;
-    subSurfaceCount = 0;
-    isShowed = false;
+    m_activeSurface = 0;
+    initializeRectangle();
 }
 
 SubSurfaceManager::~SubSurfaceManager() {}
@@ -20,79 +35,107 @@ SubSurfaceManager* SubSurfaceManager::getInstance() {
     return m_pThis;
 }
 
+void SubSurfaceManager::setWinID(ccos::window::HWindowId id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, id); fflush(stdout);
+    m_winId = id;
+}
+
 void SubSurfaceManager::create() {
-    if (isCreated) {
+    v1::commonapi::examples::ObigoStub::getInstance()->fireCreateApplicationEvent();
+}
+
+void SubSurfaceManager::show(const ccos::window::HWindowId& a_winID) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%ld\n", __func__, __LINE__, m_subSurfaceList.size()); fflush(stdout);
+    std::vector<ccos::window::HSubSurfaceHandle> zOrder;
+    ccos::window::HSubSurfaceHandle activeHandle = 0;
+
+    for (auto item : m_subSurfaceList) {
+        struct SubSurfaceManager::SubSurfaceInfo* surfaceInfo = item.second;
+        if (surfaceInfo->isShow) {
+            zOrder.push_back(surfaceInfo->subsurface->getHandle());
+        }
+    }
+    ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
+}
+
+void SubSurfaceManager::raiseIssue(const ccos::window::HWindowId& a_winID) {
+    uint32_t surface_id;
+    std::map<uint32_t, struct SubSurfaceInfo*>::iterator it = m_subSurfaceList.begin();
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, 0); fflush(stdout);
+    if (it == m_subSurfaceList.end()) {
+        fprintf(stdout, "[ObigoParent]::%s::%d::%d <== No item in list\n", __func__, __LINE__, 0); fflush(stdout);
         return;
     }
+    surface_id = it->first;
+    delete it->second;
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyApplicationEvent(surface_id);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d <== will be destroyed\n", __func__, __LINE__, surface_id); fflush(stdout);
+    m_subSurfaceList.erase(it);
 
-    int pid = -1;
-
-    pid = fork();
-    if (pid < 0) {
-        fprintf(stdout, "[ObigoParent]::%s::%d::Fork Error\n", __func__, __LINE__); fflush(stdout);
-        exit(0);
-    } else if (pid == 0) {  // child
-        execl("/ccos/apps/hmi/obigo_child/obigo_child", "/ccos/apps/hmi/obigo_child/obigo_child", nullptr);
-    } else {
-        // parent noting to do
+#if 1
+    show(m_winId);
+#else    
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    it = m_subSurfaceList.begin();
+    if (it != m_subSurfaceList.end()) {
+        struct SubSurfaceManager::SubSurfaceInfo* surfaceInfo = it->second;
+        surfaceInfo->isShow = true;
+        show(m_winId);
+        fprintf(stdout, "[ObigoParent]::%s::%d::%d <== will be shown\n", __func__, __LINE__, it->first); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
     }
-
-    isCreated = true;
+    else {
+        fprintf(stdout, "[ObigoParent]::%s::%d::%d <== No item to be shown\n", __func__, __LINE__, 0); fflush(stdout);
+    }
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+#endif
 }
 
 void SubSurfaceManager::created(const uint32_t surface_id) {
     fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
-    subSurfaceCount++;
-    if (surface_id == 1) {
-        mSubSurface1 = std::make_shared<ccos::window::HSubSurface>(surface_id);
-        mSubSurface1->setEventListener(&mSubSurfaceListener1);
-    }
-    if (surface_id == 2) {
-        mSubSurface2 = std::make_shared<ccos::window::HSubSurface>(surface_id);
-        mSubSurface2->setEventListener(&mSubSurfaceListener2);
-    }
-}
 
-void SubSurfaceManager::show(const ccos::window::HWindowId& a_winID) {
-    if (subSurfaceCount != 2) {
-        fprintf(stdout, "[ObigoParent]::%s::%d::subsurface is not created, try again\n", __func__, __LINE__); fflush(stdout);
+    struct SubSurfaceInfo* surfaceInfo = new struct SubSurfaceInfo;
+    surfaceInfo->subsurface = std::make_shared<ccos::window::HSubSurface>(surface_id);
+    surfaceInfo->subsurfaceListener = new ExampleSubSurfaceListener;
+    surfaceInfo->rect = getEmptyRectangle();
+    if (!surfaceInfo->rect) {
+        fprintf(stdout, "[ObigoParent]::%s::%d::%d ==> not available resource\n", __func__, __LINE__, surface_id); fflush(stdout);
+        delete surfaceInfo;
         return;
     }
-    std::vector<ccos::window::HSubSurfaceHandle> zOrder{ mSubSurface1->getHandle(),
-                                                         mSubSurface2->getHandle()};
+    surfaceInfo->rect->used = true;
+    surfaceInfo->subsurface->setEventListener(surfaceInfo->subsurfaceListener);
 
-    ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
+    surfaceInfo->subsurface->setSourceRectangle({0, 0, surfaceInfo->rect->width, surfaceInfo->rect->height});
+    surfaceInfo->subsurface->setDestRectangle({surfaceInfo->rect->x, surfaceInfo->rect->y,
+         surfaceInfo->rect->width, surfaceInfo->rect->height});
 
-    mSubSurface1->setSourceRectangle({0, 0, 250, 250});
-    mSubSurface1->setDestRectangle({500, 250, 250, 250});
+    m_subSurfaceList[surface_id] = surfaceInfo;
 
-    mSubSurface2->setSourceRectangle({0, 0, 250, 250});
-    mSubSurface2->setDestRectangle({800, 250, 250, 250});
-    isShowed = true;
-}
-
-void SubSurfaceManager::raiseIssue(const ccos::window::HWindowId& a_winID) {
-    if (isShowed = false) {
-        fprintf(stdout, "[ObigoParent]::%s::%d::subsurface is not shown, try again\n", __func__, __LINE__); fflush(stdout);
-        return;
+    if (!m_activeSurface) {
+       surfaceInfo->isShow = true;
+       show(m_winId);
     }
-
-    // -- Test area -- //
-    // disconnect HSubsurface 2
-    std::vector<ccos::window::HSubSurfaceHandle> zOrder{ mSubSurface1->getHandle()};
-    ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
-
-    // destroy HSubsurface 2
-    mSubSurface2.reset();
-
-    // destroy HSubsurface 2's surfaces
-    v1::commonapi::examples::ObigoStub::getInstance()->fireMakeCurrentNoSurfaceEvent(2);
-
-    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyEglSurfaceEvent(2);
-
-    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyWlEglSurfaceEvent(2);
-
-    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyWlSurfaceEvent(2);
-
-    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyIviSurfaceEvent(2);
 }
+
+void SubSurfaceManager::initializeRectangle() {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, MAX_SURFACE_COUNT); fflush(stdout);
+    for (int i=0; i<MAX_SURFACE_COUNT; i++) {
+        m_rectResource[i].x = 300 + 300*i;
+        m_rectResource[i].y = 250;
+        m_rectResource[i].width = 250;
+        m_rectResource[i].height = 250;
+        m_rectResource[i].used = false;
+    }
+}
+
+struct SubSurfaceManager::Rectangle* SubSurfaceManager::getEmptyRectangle() const {
+    for (int i=0; i<MAX_SURFACE_COUNT; i++) {
+        if (!m_rectResource[i].used) {
+            fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, i); fflush(stdout);
+            return const_cast<struct SubSurfaceManager::Rectangle*>(&m_rectResource[i]);
+        }
+    }
+    return nullptr;
+}
+

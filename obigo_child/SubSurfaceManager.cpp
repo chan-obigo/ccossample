@@ -34,9 +34,18 @@ const struct wl_registry_listener listener = {
     global_registry_remover
 };
 
-SubSurfaceManager::SubSurfaceManager() {}
+SubSurfaceManager::SubSurfaceManager() :
+  m_currentSurfaceIndex(m_startSurfaceIndex),
+  m_activeSurface(nullptr),
+  m_createdSurface(nullptr) {
 
-SubSurfaceManager::~SubSurfaceManager() {}
+}
+
+SubSurfaceManager::~SubSurfaceManager() {
+    for (auto surface : m_subSurfaces) {
+        delete surface.second;
+    }
+}
 
 void SubSurfaceManager::Initiailze() {
     display = wl_display_connect(nullptr);
@@ -48,15 +57,41 @@ void SubSurfaceManager::Initiailze() {
     wl_display_roundtrip(display);
 }
 
-void SubSurfaceManager::CreateSubSurface(int32_t surfaceid) {
-    SubSurface* pSubSurface = new SubSurface();
-    pSubSurface->CreateSurface(surfaceid);
+void SubSurfaceManager::CreateSubSurface() {
+    int emptySurfaceId = GetEmptySurfaceId();
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d is created\n", __func__, __LINE__, emptySurfaceId); fflush(stdout);
+    m_createdSurface = new SubSurface();
+    m_createdSurface->CreateSurface(emptySurfaceId);
 
-    m_subSurfaces.push_back(pSubSurface);
+    m_subSurfaces[emptySurfaceId] = m_createdSurface;
+    v1::commonapi::examples::ObigoProxy::getInstance()->CreateHSubSurface(emptySurfaceId);
+}
+
+void SubSurfaceManager::DestroySubSurface(int surface_id) {
+    std::map<int, SubSurface*>::iterator it;
+    for (it=m_subSurfaces.begin(); it!=m_subSurfaces.end(); ++it) {
+        if (it->first == surface_id) {
+            delete it->second;
+            m_subSurfaces.erase(it);
+            fprintf(stdout, "[ObigoChild]::%s::%d::%d is removed from list\n", __func__, __LINE__, surface_id); fflush(stdout);
+            break;
+        }
+    }
 }
 
 void SubSurfaceManager::Draw() {
-    for (auto surface : m_subSurfaces) {
-        surface->redraw();
+    std::map<int, SubSurface*>::iterator it;
+    for (it=m_subSurfaces.begin(); it!=m_subSurfaces.end(); ++it) {
+        SubSurface* surface = it->second;
+        if (surface && surface->Shown()) {
+            surface->Draw();
+        }
     }
+}
+
+SubSurface*  SubSurfaceManager::GetLatestCreatedSurface() {
+    if (nullptr == m_activeSurface) {
+        m_activeSurface = m_createdSurface;
+    }
+    return m_activeSurface;
 }
