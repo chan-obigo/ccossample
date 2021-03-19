@@ -15,6 +15,42 @@ interface ObigoTest {
 		}
 	}
 
+	method ShownApplication {
+		in {
+			UInt32 surface_id
+		}
+	}
+
+	method HiddenApplication {
+		in {
+			UInt32 surface_id
+		}
+	}
+
+	method DestroyedIviSurface {
+		in {
+			UInt32 surface_id
+		}
+	}
+
+	method DestroyedWlSurface {
+		in {
+			UInt32 surface_id
+		}
+	}
+
+	method DestroyedWlEglSurface {
+		in {
+			UInt32 surface_id
+		}
+	}
+
+	method DestroyedEglSurface {
+		in {
+			UInt32 surface_id
+		}
+	}
+
 	broadcast CreateApplication {
 		out {
 			UInt32 index
@@ -22,6 +58,18 @@ interface ObigoTest {
 	}
 
 	broadcast DestroyApplication {
+		out {
+			UInt32 surface_id
+		}
+	}
+
+	broadcast ShowApplication {
+		out {
+			UInt32 surface_id
+		}
+	}
+
+	broadcast HideApplication {
 		out {
 			UInt32 surface_id
 		}
@@ -51,9 +99,4 @@ interface ObigoTest {
 		}
 	}
 
-	broadcast MakeCurrentNoSurface {
-		out {
-			UInt32 surface_id
-		}
-	}
 }

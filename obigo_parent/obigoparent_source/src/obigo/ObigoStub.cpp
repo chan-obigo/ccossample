@@ -54,10 +54,6 @@ void ObigoStub::fireDestroyEglSurfaceEvent(uint32_t surface_id) {
     m_service->fireDestroyEglSurfaceEvent(surface_id);
 }
 
-void ObigoStub::fireMakeCurrentNoSurfaceEvent(uint32_t surface_id) {
-    m_service->fireMakeCurrentNoSurfaceEvent(surface_id);
-}
-
 }  // namespace examples
 }  // namespace commonapi
 }  // namespace v1

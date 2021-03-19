@@ -59,12 +59,6 @@ void ObigoProxy::Connect() {
         // DOTO () - Please Destroy surface_id's egl surface
         fprintf(stdout, "[ObigoChild]::DestroyEglSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
     });
-
-    m_proxy->getMakeCurrentNoSurfaceEvent().subscribe([&](const int32_t& surface_id) {
-        // DOTO () - Turn off MakeCurrent for surface_id
-        // The other surface must be in makecurrent state.
-        fprintf(stdout, "[ObigoChild]::MakeCurrentNoSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
-    });
 }
 
 void ObigoProxy::CreatedApplication(const uint32_t& a_in) {
