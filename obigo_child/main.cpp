@@ -17,7 +17,7 @@ int actving_surface = 0;
 SignalType actving_signal = FROM_SIGNAL_NONE;
 SubSurfaceManager subSurfaceManager;
 
-void CreateApplication() {
+void CreateApplication(const int32_t& index) {
     fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
     actving_surface = 0;
     actving_signal = FROM_SIGNAL_CREATE_APPLICATION;
@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     while (1) {
         //wl_display_dispatch(display);
         wl_display_dispatch_pending(display);
-        if (actving_signal != FROM_SIGNAL_DESTROY_APPLICATION) {
+        if (actving_signal != FROM_SIGNAL_NONE) {
             HandleSignal(actving_signal);
             actving_signal = FROM_SIGNAL_NONE;
         }

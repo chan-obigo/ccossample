@@ -30,8 +30,8 @@ void ObigoStub::Connect() {
     fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
 }
 
-void ObigoStub::fireCreateApplicationEvent() {
-    m_service->fireCreateApplicationEvent();
+void ObigoStub::fireCreateApplicationEvent(uint32_t index) {
+    m_service->fireCreateApplicationEvent(index);
 }
 
 void ObigoStub::fireDestroyApplicationEvent(uint32_t surface_id) {

@@ -50,6 +50,7 @@ SOURCES += \
     $$SOURCEPATH/window/ExampleFrontWindow.cpp \
     $$SOURCEPATH/scene/SceneExampleMain.cpp \
     $$SOURCEPATH/obigo/ObigoStub.cpp \
+    $$SOURCEPATH/obigo/ObigoTestController.cpp \
     $$SOURCEPATH/obigo/ObigoTestStubImpl.cpp \
     $$SOURCEPATH/obigo/SubSurfaceManager.cpp \
     $$PWD/../../CommonAPI/src-gen/v1/commonapi/examples/ObigoTestStubDefault.cpp \
@@ -62,6 +63,7 @@ HEADERS += \
     $$HEADERPATH/window/ExampleFrontWindow.h \
     $$HEADERPATH/scene/SceneExampleMain.h \
     $$HEADERPATH/obigo/ObigoStub.h \
+    $$HEADERPATH/obigo/ObigoTestController.h \
     $$HEADERPATH/obigo/ObigoTestStubImpl.h \
     $$HEADERPATH/obigo/SubSurfaceManager.h \
 

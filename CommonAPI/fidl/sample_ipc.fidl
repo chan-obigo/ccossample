@@ -3,14 +3,22 @@ package commonapi.examples
 interface ObigoTest {
 	version { major 1 minor 0 }
 
-	method CreateHSubSurface {
+	method CreatedApplication {
+		in {
+			UInt32 surface_id
+		}
+	}
+
+	method DestroyedApplication {
 		in {
 			UInt32 surface_id
 		}
 	}
 
 	broadcast CreateApplication {
-
+		out {
+			UInt32 index
+		}
 	}
 
 	broadcast DestroyApplication {

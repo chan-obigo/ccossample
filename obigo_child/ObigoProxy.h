@@ -18,7 +18,8 @@ class ObigoProxy {
 
     void Connect();
 
-    void CreateHSubSurface(const uint32_t& a_in);
+    void CreatedApplication(const uint32_t& a_in);
+    void DestroyedApplication(const uint32_t& a_in);
 
  private:
     ObigoProxy();

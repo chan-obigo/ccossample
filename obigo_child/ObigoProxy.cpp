@@ -1,6 +1,6 @@
 #include "ObigoProxy.h"
 
-extern void CreateApplication();
+extern void CreateApplication(const int32_t& index);
 extern void DestroyApplication(const int32_t& surface_id);
 
 
@@ -67,10 +67,16 @@ void ObigoProxy::Connect() {
     });
 }
 
-void ObigoProxy::CreateHSubSurface(const uint32_t& a_in) {
+void ObigoProxy::CreatedApplication(const uint32_t& a_in) {
     CommonAPI::CallStatus callStatus;
-    m_proxy->CreateHSubSurface(a_in, callStatus);
+    m_proxy->CreatedApplication(a_in, callStatus);
 }
+
+void ObigoProxy::DestroyedApplication(const uint32_t& a_in) {
+    CommonAPI::CallStatus callStatus;
+    m_proxy->DestroyedApplication(a_in, callStatus);
+}
+
 
 }  // namespace examples
 }  // namespace commonapi

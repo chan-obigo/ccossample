@@ -64,7 +64,7 @@ void SubSurfaceManager::CreateSubSurface() {
     m_createdSurface->CreateSurface(emptySurfaceId);
 
     m_subSurfaces[emptySurfaceId] = m_createdSurface;
-    v1::commonapi::examples::ObigoProxy::getInstance()->CreateHSubSurface(emptySurfaceId);
+    v1::commonapi::examples::ObigoProxy::getInstance()->CreatedApplication(emptySurfaceId);
 }
 
 void SubSurfaceManager::DestroySubSurface(int surface_id) {
