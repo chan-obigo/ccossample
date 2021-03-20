@@ -11,12 +11,20 @@ class SubSurfaceManager {
     ~SubSurfaceManager();
 
     void Initiailze();
-    void CreateSubSurface();
-    void DestroySubSurface(int surface_id);
     void Draw();
     int GetEmptySurfaceId() { return m_currentSurfaceIndex++; }
     SubSurface* GetActiveSurface() { return m_activeSurface; }
     SubSurface* GetLatestCreatedSurface();
+
+    // interface api
+    void CreateSurface();
+    void DestroySurface(int surface_id);
+    void ShowSurface(int surface_id);
+    void HideSurface(int surface_id);
+    void DestroyIviSurface(int surface_id);
+    void DestroyWlSurface(int surface_id);
+    void DestroyWlEglSurface(int surface_id);
+    void DestroyEglSurface(int surface_id);
 
  private:
     std::map<int, SubSurface*> m_subSurfaces;

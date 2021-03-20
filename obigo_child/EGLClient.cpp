@@ -410,7 +410,31 @@ EGLClient::initialize() {
 
 }
 
+void EGLClient::destroy_ivi_surface() { 
+	// NONE
+}
 
+void EGLClient::destroy_wl_surface() { 
+	struct window *window = &m_window;
+	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
+		       EGL_NO_CONTEXT);
+	wl_surface_destroy(window->surface);
+}
+
+void EGLClient::destroy_wl_egl_surface() { 
+	struct window *window = &m_window;
+	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
+		       EGL_NO_CONTEXT);
+	weston_platform_destroy_egl_surface(window->display->egl.dpy,
+					    window->egl_surface);
+}
+
+void EGLClient::destroy_egl_surface() { 
+	struct window *window = &m_window;
+	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
+		       EGL_NO_CONTEXT);
+	wl_egl_window_destroy(window->native);
+}
 
 
 

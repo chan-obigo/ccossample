@@ -20,6 +20,12 @@ class ObigoProxy {
 
     void CreatedApplication(const uint32_t& a_in);
     void DestroyedApplication(const uint32_t& a_in);
+    void ShownApplication(const uint32_t& a_in);
+    void HiddenApplication(const uint32_t& a_in);
+    void DestroyedIviSurface(const uint32_t& a_in);
+    void DestroyedWlSurface(const uint32_t& a_in);
+    void DestroyedWlEglSurface(const uint32_t& a_in);
+    void DestroyedEglSurface(const uint32_t& a_in);
 
  private:
     ObigoProxy();

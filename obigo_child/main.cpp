@@ -10,6 +10,12 @@ extern struct wl_display *display;
 typedef enum SignalType {
     FROM_SIGNAL_CREATE_APPLICATION,
     FROM_SIGNAL_DESTROY_APPLICATION,
+    FROM_SIGNAL_SHOW_APPLICATION,
+    FROM_SIGNAL_HIDE_APPLICATION,
+    FROM_SIGNAL_DESTROY_IVI_SURFACE,
+    FROM_SIGNAL_DESTROY_WL_SURFACE,
+    FROM_SIGNAL_DESTROY_WL_EGL_SURFACE,
+    FROM_SIGNAL_DESTROY_EGL_SURFACE,
     FROM_SIGNAL_NONE,
 };
 
@@ -29,15 +35,67 @@ void DestroyApplication(const int32_t& surface_id) {
     actving_signal = FROM_SIGNAL_DESTROY_APPLICATION;
 }
 
+void ShowApplication(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_SHOW_APPLICATION;
+}
+
+void HideApplication(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_HIDE_APPLICATION;
+}
+
+void DestroyIviSurface(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_DESTROY_IVI_SURFACE;
+}
+
+void DestroyWlSurface(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_DESTROY_WL_SURFACE;
+}
+
+void DestroyWlEglSurface(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_DESTROY_WL_EGL_SURFACE;
+}
+
+void DestroyEglSurface(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_DESTROY_EGL_SURFACE;
+}
+
 void HandleSignal(SignalType type) {
     switch (type) {
         case FROM_SIGNAL_CREATE_APPLICATION :
-            subSurfaceManager.CreateSubSurface();
-            fprintf(stdout, "[ObigoChild] CreateSubSurface\n"); fflush(stdout);
+            subSurfaceManager.CreateSurface();
             break;
         case FROM_SIGNAL_DESTROY_APPLICATION :
-            subSurfaceManager.DestroySubSurface(actving_surface);
-            fprintf(stdout, "[ObigoChild] DestroySubSurface\n"); fflush(stdout);
+            subSurfaceManager.DestroySurface(actving_surface);
+            break;
+        case FROM_SIGNAL_SHOW_APPLICATION :
+            subSurfaceManager.ShowSurface(actving_surface);
+            break;
+        case FROM_SIGNAL_HIDE_APPLICATION :
+            subSurfaceManager.HideSurface(actving_surface);
+            break;
+        case FROM_SIGNAL_DESTROY_IVI_SURFACE :
+            subSurfaceManager.DestroyIviSurface(actving_surface);
+            break;
+        case FROM_SIGNAL_DESTROY_WL_SURFACE :
+            subSurfaceManager.DestroyWlSurface(actving_surface);
+            break;
+        case FROM_SIGNAL_DESTROY_WL_EGL_SURFACE :
+            subSurfaceManager.DestroyWlEglSurface(actving_surface);
+            break;
+        case FROM_SIGNAL_DESTROY_EGL_SURFACE :
+            subSurfaceManager.DestroyEglSurface(actving_surface);
             break;
         default:
             break;

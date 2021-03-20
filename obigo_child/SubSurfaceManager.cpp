@@ -57,28 +57,6 @@ void SubSurfaceManager::Initiailze() {
     wl_display_roundtrip(display);
 }
 
-void SubSurfaceManager::CreateSubSurface() {
-    int emptySurfaceId = GetEmptySurfaceId();
-    fprintf(stdout, "[ObigoChild]::%s::%d::%d is created\n", __func__, __LINE__, emptySurfaceId); fflush(stdout);
-    m_createdSurface = new SubSurface();
-    m_createdSurface->CreateSurface(emptySurfaceId);
-
-    m_subSurfaces[emptySurfaceId] = m_createdSurface;
-    v1::commonapi::examples::ObigoProxy::getInstance()->CreatedApplication(emptySurfaceId);
-}
-
-void SubSurfaceManager::DestroySubSurface(int surface_id) {
-    std::map<int, SubSurface*>::iterator it;
-    for (it=m_subSurfaces.begin(); it!=m_subSurfaces.end(); ++it) {
-        if (it->first == surface_id) {
-            delete it->second;
-            m_subSurfaces.erase(it);
-            fprintf(stdout, "[ObigoChild]::%s::%d::%d is removed from list\n", __func__, __LINE__, surface_id); fflush(stdout);
-            break;
-        }
-    }
-}
-
 void SubSurfaceManager::Draw() {
     std::map<int, SubSurface*>::iterator it;
     for (it=m_subSurfaces.begin(); it!=m_subSurfaces.end(); ++it) {
@@ -95,3 +73,63 @@ SubSurface*  SubSurfaceManager::GetLatestCreatedSurface() {
     }
     return m_activeSurface;
 }
+
+void SubSurfaceManager::CreateSurface() {
+    int emptySurfaceId = GetEmptySurfaceId();
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d is created\n", __func__, __LINE__, emptySurfaceId); fflush(stdout);
+    m_createdSurface = new SubSurface();
+    m_createdSurface->CreateSurface(emptySurfaceId);
+
+    m_subSurfaces[emptySurfaceId] = m_createdSurface;
+    v1::commonapi::examples::ObigoProxy::getInstance()->CreatedApplication(emptySurfaceId);
+}
+
+void SubSurfaceManager::DestroySurface(int surface_id) {
+    std::map<int, SubSurface*>::iterator it;
+    for (it=m_subSurfaces.begin(); it!=m_subSurfaces.end(); ++it) {
+        if (it->first == surface_id) {
+            delete it->second;
+            m_subSurfaces.erase(it);
+            fprintf(stdout, "[ObigoChild]::%s::%d::%d is removed from list\n", __func__, __LINE__, surface_id); fflush(stdout);
+            break;
+        }
+    }
+    v1::commonapi::examples::ObigoProxy::getInstance()->DestroyedApplication(surface_id);
+}
+
+void SubSurfaceManager::ShowSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->setShown(true);
+    v1::commonapi::examples::ObigoProxy::getInstance()->ShownApplication(surface_id);
+}
+
+void SubSurfaceManager::HideSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->setShown(false);
+    v1::commonapi::examples::ObigoProxy::getInstance()->HiddenApplication(surface_id);
+}
+
+void SubSurfaceManager::DestroyIviSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->DestroyIviSurface();
+    v1::commonapi::examples::ObigoProxy::getInstance()->DestroyedIviSurface(surface_id);
+}
+
+void SubSurfaceManager::DestroyWlSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->DestroyWlSurface();
+    v1::commonapi::examples::ObigoProxy::getInstance()->DestroyedWlSurface(surface_id);
+}
+
+void SubSurfaceManager::DestroyWlEglSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->DestroyWlEglSurface();
+    v1::commonapi::examples::ObigoProxy::getInstance()->DestroyedWlEglSurface(surface_id);
+}
+
+void SubSurfaceManager::DestroyEglSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->DestroyEglSurface();
+    v1::commonapi::examples::ObigoProxy::getInstance()->DestroyedEglSurface(surface_id);
+}
+

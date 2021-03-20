@@ -150,6 +150,11 @@ struct SubSurfaceManager::Rectangle* SubSurfaceManager::getIndexedRectangle(uint
     return const_cast<struct SubSurfaceManager::Rectangle*>(&m_rectResource[index]);
 }
 
+void SubSurfaceManager::run() {
+    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
+    getController()->run();
+}
+
 bool SubSurfaceManager::create_application(uint32_t index) {
     fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
     set_creating_index(index);
@@ -164,6 +169,49 @@ bool SubSurfaceManager::destroy_application(uint32_t index) {
     v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyApplicationEvent(rect->surface_id);
     return true;
 }
+
+bool SubSurfaceManager::show_application(uint32_t index) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    struct Rectangle* rect = getIndexedRectangle(index);
+    v1::commonapi::examples::ObigoStub::getInstance()->fireShowApplicationEvent(rect->surface_id);
+    return true;
+}
+
+bool SubSurfaceManager::hide_application(uint32_t index) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    struct Rectangle* rect = getIndexedRectangle(index);
+    v1::commonapi::examples::ObigoStub::getInstance()->fireHideApplicationEvent(rect->surface_id);
+    return true;
+}
+
+bool SubSurfaceManager::destroy_ivi_surface(uint32_t index) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    struct Rectangle* rect = getIndexedRectangle(index);
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyIviSurfaceEvent(rect->surface_id);
+    return true;
+}
+
+bool SubSurfaceManager::destroy_wl_surface(uint32_t index) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    struct Rectangle* rect = getIndexedRectangle(index);
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyWlSurfaceEvent(rect->surface_id);
+    return true;
+}
+
+bool SubSurfaceManager::destroy_wl_egl_surface(uint32_t index) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    struct Rectangle* rect = getIndexedRectangle(index);
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyWlEglSurfaceEvent(rect->surface_id);
+    return true;
+}
+
+bool SubSurfaceManager::destroy_egl_surface(uint32_t index) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    struct Rectangle* rect = getIndexedRectangle(index);
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyEglSurfaceEvent(rect->surface_id);
+    return true;
+}
+
 
 void SubSurfaceManager::reply_create_application(uint32_t surface_id) {
     fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
@@ -188,25 +236,50 @@ void SubSurfaceManager::reply_create_application(uint32_t surface_id) {
          surfaceInfo->rect->width, surfaceInfo->rect->height});
 
     m_subSurfaceList[surface_id] = surfaceInfo;
-
-    if (!m_activeSurface) {
-       surfaceInfo->isShow = true;
-       show(m_winId);
-    }
     run();
 }
 
 void SubSurfaceManager::reply_destroy_application(uint32_t surface_id) {
     fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
-
     delete m_subSurfaceList[surface_id];
     m_subSurfaceList.erase(surface_id);
-
     show(m_winId);
     run();
 }
 
-void SubSurfaceManager::run() {
-    fprintf(stdout, "[ObigoParent]::%s::%d\n", __func__, __LINE__); fflush(stdout);
-    getController()->run();
+void SubSurfaceManager::reply_show_application(uint32_t surface_id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    struct SubSurfaceInfo* surfaceInfo = m_subSurfaceList[surface_id];
+    surfaceInfo->isShow = true;
+    show(m_winId);
+    run();
 }
+
+void SubSurfaceManager::reply_hide_application(uint32_t surface_id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    struct SubSurfaceInfo* surfaceInfo = m_subSurfaceList[surface_id];
+    surfaceInfo->isShow = false;
+    show(m_winId);
+    run();
+}
+
+void SubSurfaceManager::reply_destroy_ivi_surface(uint32_t surface_id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    run();
+}
+
+void SubSurfaceManager::reply_destroy_wl_surface(uint32_t surface_id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    run();
+}
+
+void SubSurfaceManager::reply_destroy_wl_egl_surface(uint32_t surface_id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    run();
+}
+
+void SubSurfaceManager::reply_destroy_egl_surface(uint32_t surface_id) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    run();
+}
+

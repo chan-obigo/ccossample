@@ -38,9 +38,6 @@ void SubSurface::CreateSurface(int32_t surfaceid) {
     m_wlsurface =  m_eglCleint->get_wayland_surface();
     m_ivisurface = ivi_application_surface_create(iviapplication, surfaceid, m_wlsurface);
     m_surfaceId = surfaceid;
-    m_wasShown = true;
-    
-    m_eglCleint->redraw(0);
     wl_display_flush(display);
 }
 
@@ -48,3 +45,26 @@ void SubSurface::Draw() {
     m_eglCleint->redraw(0);
     wl_display_flush(display);
 }
+
+void SubSurface::DestroyIviSurface() {
+   ivi_surface_destroy(m_ivisurface);
+    // m_eglCleint->destroy_ivi_surface();
+    // wl_display_flush(display);
+}
+
+void SubSurface::DestroyWlSurface() {
+    m_eglCleint->destroy_wl_surface();
+    wl_display_flush(display);
+}
+
+void SubSurface::DestroyWlEglSurface() {
+    m_eglCleint->destroy_wl_egl_surface();
+    wl_display_flush(display);
+}
+
+void SubSurface::DestroyEglSurface() {
+    m_eglCleint->destroy_egl_surface();
+    wl_display_flush(display);
+}
+
+

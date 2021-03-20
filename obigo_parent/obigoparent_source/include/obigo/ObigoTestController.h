@@ -30,6 +30,12 @@ class ObigoTestController {
     //  action list (from parent to child) - async
     static bool create_application(uint32_t index, void *data);
     static bool destroy_application(uint32_t index, void *data);
+    static bool show_application(uint32_t index, void *data);
+    static bool hide_application(uint32_t index, void *data);
+    static bool destroy_ivi_surface(uint32_t index, void *data);
+    static bool destroy_wl_surface(uint32_t index, void *data);
+    static bool destroy_wl_egl_surface(uint32_t index, void *data);
+    static bool destroy_egl_surface(uint32_t index, void *data);
 
     //  action list (from parent to child) - sync
     static bool waiting(uint32_t ms, void *data);

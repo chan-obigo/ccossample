@@ -56,9 +56,21 @@ class SubSurfaceManager {
     // APIs
     bool create_application(uint32_t index);
     bool destroy_application(uint32_t index);
+    bool show_application(uint32_t index);
+    bool hide_application(uint32_t index);
+    bool destroy_ivi_surface(uint32_t index);
+    bool destroy_wl_surface(uint32_t index);
+    bool destroy_wl_egl_surface(uint32_t index);
+    bool destroy_egl_surface(uint32_t index);
 
     void reply_create_application(uint32_t surface_id);
     void reply_destroy_application(uint32_t surface_id);
+    void reply_show_application(uint32_t surface_id);
+    void reply_hide_application(uint32_t surface_id);
+    void reply_destroy_ivi_surface(uint32_t surface_id);
+    void reply_destroy_wl_surface(uint32_t surface_id);
+    void reply_destroy_wl_egl_surface(uint32_t surface_id);
+    void reply_destroy_egl_surface(uint32_t surface_id);
 
     // Commonly used
     void set_creating_index(uint32_t index) { m_creatingIndex = index; }

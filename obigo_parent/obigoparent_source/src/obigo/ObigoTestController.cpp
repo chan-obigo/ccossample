@@ -56,11 +56,17 @@ ObigoTestController::~ObigoTestController() {
 void ObigoTestController::initActionList() {
 	m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("create_application", create_application));
 	m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_application", destroy_application));
-	m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("waiting", waiting));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("show_application", show_application));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("hide_application", hide_application));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_ivi_surface", destroy_ivi_surface));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_wl_surface", destroy_wl_surface));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_wl_egl_surface", destroy_wl_egl_surface));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_egl_surface", destroy_egl_surface));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("waiting", waiting));
 }
 
 void ObigoTestController::initHistory() {
-#if 0
+#if 1
 	FILE *stream;
 	char *line = NULL;
 	size_t len = 0;
@@ -113,6 +119,43 @@ bool ObigoTestController::destroy_application(uint32_t index, void *data) {
 	ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
 	pThis->getHost()->destroy_application(index);
 }
+
+bool ObigoTestController::show_application(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->show_application(index);
+}
+
+bool ObigoTestController::hide_application(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->hide_application(index);
+}
+
+bool ObigoTestController::destroy_ivi_surface(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->destroy_ivi_surface(index);
+}
+
+bool ObigoTestController::destroy_wl_surface(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->destroy_wl_surface(index);
+}
+
+bool ObigoTestController::destroy_wl_egl_surface(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->destroy_wl_egl_surface(index);
+}
+
+bool ObigoTestController::destroy_egl_surface(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->destroy_egl_surface(index);
+}
+
 
 static void TimerExpired(sigval const sv) noexcept {
 	ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(sv.sival_ptr);

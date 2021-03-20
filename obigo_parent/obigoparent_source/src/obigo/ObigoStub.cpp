@@ -38,6 +38,14 @@ void ObigoStub::fireDestroyApplicationEvent(uint32_t surface_id) {
     m_service->fireDestroyApplicationEvent(surface_id);
 }
 
+void ObigoStub::fireShowApplicationEvent(uint32_t surface_id) {
+    m_service->fireShowApplicationEvent(surface_id);
+}
+
+void ObigoStub::fireHideApplicationEvent(uint32_t surface_id) {
+    m_service->fireHideApplicationEvent(surface_id);
+}
+
 void ObigoStub::fireDestroyIviSurfaceEvent(uint32_t surface_id) {
     m_service->fireDestroyIviSurfaceEvent(surface_id);
 }

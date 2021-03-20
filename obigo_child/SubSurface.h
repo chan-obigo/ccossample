@@ -17,6 +17,11 @@ class SubSurface {
     bool Shown() { return m_wasShown; }
     bool setShown(bool shown) { m_wasShown = shown; }
 
+    void DestroyIviSurface();
+    void DestroyWlSurface();
+    void DestroyWlEglSurface();
+    void DestroyEglSurface();
+
  private:
     struct wl_surface* m_wlsurface;
     struct ivi_surface* m_ivisurface;
