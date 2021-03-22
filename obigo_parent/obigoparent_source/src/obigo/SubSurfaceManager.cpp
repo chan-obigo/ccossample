@@ -127,6 +127,15 @@ void SubSurfaceManager::created(const uint32_t surface_id) {
 
 void SubSurfaceManager::initializeRectangle() {
     fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, MAX_SURFACE_COUNT); fflush(stdout);
+#if 1
+    for (int i=0; i<MAX_SURFACE_COUNT; i++) {
+        m_rectResource[i].x = 280;
+        m_rectResource[i].y = 120;
+        m_rectResource[i].width = 1000;
+        m_rectResource[i].height = 600;
+        m_rectResource[i].used = false;
+    }
+#else    
     for (int i=0; i<MAX_SURFACE_COUNT; i++) {
         m_rectResource[i].x = 300 + 300*i;
         m_rectResource[i].y = 250;
@@ -134,6 +143,7 @@ void SubSurfaceManager::initializeRectangle() {
         m_rectResource[i].height = 250;
         m_rectResource[i].used = false;
     }
+#endif    
 }
 
 struct SubSurfaceManager::Rectangle* SubSurfaceManager::getEmptyRectangle() const {

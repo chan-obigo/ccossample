@@ -193,7 +193,6 @@ EGLClient::create_shader(struct window *window, const char *source, GLenum shade
 
 	return shader;
 }
-
 void
 EGLClient::init_gl(struct window *window)
 {
@@ -289,11 +288,6 @@ void EGLClient::redraw(uint32_t time)
 		{  0.5, -0.5 },
 		{  0,    0.5 }
 	};
-	static const GLfloat colors[3][3] = {
-		{ 1, 0, 0 },
-		{ 0, 1, 0 },
-		{ 0, 0, 1 }
-	};
 	GLfloat angle;
 	GLfloat rotation[4][4] = {
 		{ 1, 0, 0, 0 },
@@ -343,7 +337,7 @@ void EGLClient::redraw(uint32_t time)
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	glVertexAttribPointer(window->gl.pos, 2, GL_FLOAT, GL_FALSE, 0, verts);
-	glVertexAttribPointer(window->gl.col, 3, GL_FLOAT, GL_FALSE, 0, colors);
+	glVertexAttribPointer(window->gl.col, 3, GL_FLOAT, GL_FALSE, 0, m_colors);
 	glEnableVertexAttribArray(window->gl.pos);
 	glEnableVertexAttribArray(window->gl.col);
 
@@ -384,7 +378,7 @@ EGLClient::EGLClient() {
 
 }
 
-EGLClient::EGLClient(int width, int height) {
+EGLClient::EGLClient(int width, int height, int index) {
 
 	m_window.opaque = 0;
 	m_window.buffer_size = 32;
@@ -398,8 +392,31 @@ EGLClient::EGLClient(int width, int height) {
 	m_display.display = display;
     m_display.compositor = compositor;
 
-}
+    for (int i=0; i<3; i++)
+        for (int j=0; j<3; j++)
+            m_colors[i][j] = 0;
 
+    if (index == 0) {
+        m_colors[0][0] = 1;
+        m_colors[1][1] = 1;
+        m_colors[2][2] = 1;
+    }
+    else if (index == 1) {
+        m_colors[0][0] = 1;
+        m_colors[1][0] = 1;
+        m_colors[2][0] = 1;
+    }
+    else if (index == 2) {
+        m_colors[0][1] = 1;
+        m_colors[1][1] = 1;
+        m_colors[2][1] = 1;
+    }
+    else if (index == 3) {
+        m_colors[0][2] = 1;
+        m_colors[1][2] = 1;
+        m_colors[2][2] = 1;
+    }
+}
 
 void
 EGLClient::initialize() { 

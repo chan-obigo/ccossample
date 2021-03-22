@@ -11,7 +11,7 @@ class SubSurface {
     SubSurface();
     ~SubSurface();
 
-    void CreateSurface(int32_t surfaceid);
+    void CreateSurface(int32_t surfaceid, int index);
     void Draw();
     int GetSurfaceId() { return m_surfaceId; }
     bool Shown() { return m_wasShown; }

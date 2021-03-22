@@ -25,7 +25,7 @@ SubSurfaceManager subSurfaceManager;
 
 void CreateApplication(const int32_t& index) {
     fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
-    actving_surface = 0;
+    actving_surface = index;
     actving_signal = FROM_SIGNAL_CREATE_APPLICATION;
 }
 
@@ -74,7 +74,7 @@ void DestroyEglSurface(const int32_t& surface_id) {
 void HandleSignal(SignalType type) {
     switch (type) {
         case FROM_SIGNAL_CREATE_APPLICATION :
-            subSurfaceManager.CreateSurface();
+            subSurfaceManager.CreateSurface(actving_surface);
             break;
         case FROM_SIGNAL_DESTROY_APPLICATION :
             subSurfaceManager.DestroySurface(actving_surface);
@@ -119,8 +119,7 @@ int main(int argc, char *argv[]) {
             actving_signal = FROM_SIGNAL_NONE;
         }
         subSurfaceManager.Draw();
-        usleep(1000*100);
+        usleep(1000);
     }
-
     return 0;
 }

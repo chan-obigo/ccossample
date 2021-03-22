@@ -12,8 +12,8 @@ extern struct wl_compositor *compositor;
 extern struct ivi_application *iviapplication;
 extern struct wl_shm *shm;
 
-const int WIDTH = 250;
-const int HEIGHT = 250;
+const int WIDTH = 1000;
+const int HEIGHT = 600;
 
 SubSurface::SubSurface() :
   m_wlsurface(nullptr),
@@ -32,8 +32,8 @@ SubSurface::~SubSurface() {
     }
 }
 
-void SubSurface::CreateSurface(int32_t surfaceid) {
-    m_eglCleint = new EGLClient(WIDTH, HEIGHT);
+void SubSurface::CreateSurface(int32_t surfaceid, int index) {
+    m_eglCleint = new EGLClient(WIDTH, HEIGHT, index);
     m_eglCleint->initialize();
     m_wlsurface =  m_eglCleint->get_wayland_surface();
     m_ivisurface = ivi_application_surface_create(iviapplication, surfaceid, m_wlsurface);

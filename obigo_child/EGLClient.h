@@ -101,13 +101,14 @@ class EGLClient {
     wl_surface* get_wayland_surface() { return m_window.surface; }
 
     EGLClient();
-    EGLClient(int width, int height);
+    EGLClient(int width, int height, int index);
     virtual ~EGLClient() {}
 
  private:
 
  	struct display m_display;
  	struct window m_window;
+ 	GLfloat m_colors[3][3];
 };
 
 

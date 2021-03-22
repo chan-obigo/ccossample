@@ -17,7 +17,7 @@ class SubSurfaceManager {
     SubSurface* GetLatestCreatedSurface();
 
     // interface api
-    void CreateSurface();
+    void CreateSurface(int index);
     void DestroySurface(int surface_id);
     void ShowSurface(int surface_id);
     void HideSurface(int surface_id);

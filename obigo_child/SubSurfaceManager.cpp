@@ -74,11 +74,11 @@ SubSurface*  SubSurfaceManager::GetLatestCreatedSurface() {
     return m_activeSurface;
 }
 
-void SubSurfaceManager::CreateSurface() {
+void SubSurfaceManager::CreateSurface(int index) {
     int emptySurfaceId = GetEmptySurfaceId();
     fprintf(stdout, "[ObigoChild]::%s::%d::%d is created\n", __func__, __LINE__, emptySurfaceId); fflush(stdout);
     m_createdSurface = new SubSurface();
-    m_createdSurface->CreateSurface(emptySurfaceId);
+    m_createdSurface->CreateSurface(emptySurfaceId, index);
 
     m_subSurfaces[emptySurfaceId] = m_createdSurface;
     v1::commonapi::examples::ObigoProxy::getInstance()->CreatedApplication(emptySurfaceId);

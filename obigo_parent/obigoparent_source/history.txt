@@ -1,4 +1,0 @@
-create_application 0
-create_application 1
-waiting 5000
-destroy_application 1
