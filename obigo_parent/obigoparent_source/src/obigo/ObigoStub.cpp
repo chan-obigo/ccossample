@@ -28,8 +28,24 @@ void ObigoStub::Connect() {
     runtime->registerService(domain, instance, m_service, connection);
 }
 
-void ObigoStub::fireDestroyChildEvent(uint32_t surface_id) {
-    m_service->fireDestroyChildEvent(surface_id);
+void ObigoStub::fireDestroyIviSurfaceEvent(uint32_t surface_id) {
+    m_service->fireDestroyIviSurfaceEvent(surface_id);
+}
+
+void ObigoStub::fireDestroyWlSurfaceEvent(uint32_t surface_id) {
+    m_service->fireDestroyWlSurfaceEvent(surface_id);
+}
+
+void ObigoStub::fireDestroyWlEglSurfaceEvent(uint32_t surface_id) {
+    m_service->fireDestroyWlEglSurfaceEvent(surface_id);
+}
+
+void ObigoStub::fireDestroyEglSurfaceEvent(uint32_t surface_id) {
+    m_service->fireDestroyEglSurfaceEvent(surface_id);
+}
+
+void ObigoStub::fireMakeCurrentNoSurfaceEvent(uint32_t surface_id) {
+    m_service->fireMakeCurrentNoSurfaceEvent(surface_id);
 }
 
 }  // namespace examples

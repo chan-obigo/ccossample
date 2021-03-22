@@ -9,7 +9,31 @@ interface ObigoTest {
 		}
 	}
 
-	broadcast DestroyChild {
+	broadcast DestroyIviSurface {
+		out {
+			UInt32 surface_id
+		}
+	}
+
+	broadcast DestroyWlSurface {
+		out {
+			UInt32 surface_id
+		}
+	}
+
+	broadcast DestroyWlEglSurface {
+		out {
+			UInt32 surface_id
+		}
+	}
+
+	broadcast DestroyEglSurface {
+	    out {
+			UInt32 surface_id
+		}
+	}
+
+	broadcast MakeCurrentNoSurface {
 		out {
 			UInt32 surface_id
 		}

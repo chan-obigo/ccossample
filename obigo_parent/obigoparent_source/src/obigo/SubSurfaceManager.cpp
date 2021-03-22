@@ -87,6 +87,7 @@ void SubSurfaceManager::raiseIssue(const ccos::window::HWindowId& a_winID) {
         return;
     }
 
+    // -- Test area -- //
     // disconnect HSubsurface 2
     std::vector<ccos::window::HSubSurfaceHandle> zOrder{ mSubSurface1->getHandle()};
     ccos::window::HSubSurfaceController::getInstance()->connect(a_winID, zOrder);
@@ -94,6 +95,14 @@ void SubSurfaceManager::raiseIssue(const ccos::window::HWindowId& a_winID) {
     // destroy HSubsurface 2
     mSubSurface2.reset();
 
-    // destroy HSubsurface 2's process
-    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyChildEvent(2);
+    // destroy HSubsurface 2's surfaces
+    v1::commonapi::examples::ObigoStub::getInstance()->fireMakeCurrentNoSurfaceEvent(2);
+
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyEglSurfaceEvent(2);
+
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyWlEglSurfaceEvent(2);
+
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyWlSurfaceEvent(2);
+
+    v1::commonapi::examples::ObigoStub::getInstance()->fireDestroyIviSurfaceEvent(2);
 }
