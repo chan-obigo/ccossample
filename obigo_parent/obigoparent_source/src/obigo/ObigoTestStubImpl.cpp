@@ -65,6 +65,13 @@ void ObigoTestStubImpl::DestroyedEglSurface(const std::shared_ptr<CommonAPI::Cli
     _reply();
 }
 
+void ObigoTestStubImpl::MadeCurrentSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, MadeCurrentSurfaceReply_t _reply) {
+    (void)_client;
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, _surface_id); fflush(stdout);
+    SubSurfaceManager::getInstance()->run();
+    _reply();
+}
+
 }  // namespace examples
 }  // namespace commonapi
 }  // namespace v1

@@ -25,6 +25,7 @@ class SubSurfaceManager {
     void DestroyWlSurface(int surface_id);
     void DestroyWlEglSurface(int surface_id);
     void DestroyEglSurface(int surface_id);
+    void MakeCurrentSurface(int surface_id);
 
  private:
     std::map<int, SubSurface*> m_subSurfaces;

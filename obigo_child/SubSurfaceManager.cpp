@@ -133,3 +133,8 @@ void SubSurfaceManager::DestroyEglSurface(int surface_id) {
     v1::commonapi::examples::ObigoProxy::getInstance()->DestroyedEglSurface(surface_id);
 }
 
+void SubSurfaceManager::MakeCurrentSurface(int surface_id) {
+    SubSurface* surface = m_subSurfaces[surface_id];
+    surface->MakeCurrentSurface();
+    v1::commonapi::examples::ObigoProxy::getInstance()->MadeCurrentSurface(surface_id);
+}

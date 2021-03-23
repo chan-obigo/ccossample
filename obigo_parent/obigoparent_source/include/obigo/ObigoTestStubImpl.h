@@ -22,6 +22,8 @@ class ObigoTestStubImpl : public ObigoTestStubDefault {
     void DestroyedWlSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, DestroyedWlSurfaceReply_t _reply) override;
     void DestroyedWlEglSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, DestroyedWlEglSurfaceReply_t _reply) override;
     void DestroyedEglSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, DestroyedEglSurfaceReply_t _reply) override;
+
+    void MadeCurrentSurface(const std::shared_ptr<CommonAPI::ClientId> _client, uint32_t _surface_id, MadeCurrentSurfaceReply_t _reply) override;
 };
 
 }  // namespace examples

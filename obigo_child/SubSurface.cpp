@@ -27,6 +27,12 @@ SubSurface::SubSurface() :
 }
 
 SubSurface::~SubSurface() {
+
+    DestroyIviSurface();
+    DestroyWlSurface();
+    DestroyWlEglSurface();
+    DestroyEglSurface();
+
     if (m_eglCleint) {
         delete m_eglCleint;
     }
@@ -47,7 +53,12 @@ void SubSurface::Draw() {
 }
 
 void SubSurface::DestroyIviSurface() {
-   ivi_surface_destroy(m_ivisurface);
+    if (!m_ivisurface) {
+        return;
+    }
+    ivi_surface_destroy(m_ivisurface);
+    m_ivisurface = nullptr;
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, m_surfaceId); fflush(stdout);
     // m_eglCleint->destroy_ivi_surface();
     // wl_display_flush(display);
 }
@@ -55,16 +66,26 @@ void SubSurface::DestroyIviSurface() {
 void SubSurface::DestroyWlSurface() {
     m_eglCleint->destroy_wl_surface();
     wl_display_flush(display);
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, m_surfaceId); fflush(stdout);
 }
 
 void SubSurface::DestroyWlEglSurface() {
     m_eglCleint->destroy_wl_egl_surface();
     wl_display_flush(display);
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, m_surfaceId); fflush(stdout);
 }
 
 void SubSurface::DestroyEglSurface() {
     m_eglCleint->destroy_egl_surface();
     wl_display_flush(display);
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, m_surfaceId); fflush(stdout);
 }
+
+void SubSurface::MakeCurrentSurface() {
+    m_eglCleint->make_current();
+    wl_display_flush(display);
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, m_surfaceId); fflush(stdout);
+}
+
 
 

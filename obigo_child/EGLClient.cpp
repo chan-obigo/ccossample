@@ -253,20 +253,24 @@ void EGLClient::create_surface(struct window *window)
 				      NULL);
 
 
+#if 1 // SACH_SPECIFIC (make current test)
 	ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
 	assert(ret == EGL_TRUE);
 
 	if (!window->frame_sync)
 		eglSwapInterval(display->egl.dpy, 0);
+#endif
 }
 
 void EGLClient::destroy_surface(struct window *window)
 {
 	/* Required, otherwise segfault in egl_dri2.c: dri2_make_current()
 	 * on eglReleaseThread(). */
+#if 0 // SACH_SPECIFIC (make current test)
 	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
 		       EGL_NO_CONTEXT);
+#endif
 
 	weston_platform_destroy_egl_surface(window->display->egl.dpy,
 					    window->egl_surface);
@@ -301,9 +305,11 @@ void EGLClient::redraw(uint32_t time)
 	EGLint buffer_age = 0;
 	struct timeval tv;
 
+#if 0 // SACH_SPECIFIC (make current test)
 	EGLBoolean ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
 			     window->egl_surface, window->display->egl.ctx);
 	assert(ret == EGL_TRUE);
+#endif
 
 	gettimeofday(&tv, NULL);
 	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
@@ -427,30 +433,56 @@ EGLClient::initialize() {
 
 }
 
+
+void EGLClient::make_current() {
+    fprintf(stdout, "[ObigoChild]::%s::%d\n", __func__, __LINE__); fflush(stdout);
+	struct window *window = &m_window;
+	EGLBoolean ret = eglMakeCurrent(window->display->egl.dpy, window->egl_surface,
+			     window->egl_surface, window->display->egl.ctx);
+}
+
 void EGLClient::destroy_ivi_surface() { 
 	// NONE
 }
 
 void EGLClient::destroy_wl_surface() { 
 	struct window *window = &m_window;
+	if (!window->surface) {
+		return;
+	}
+#if 0 // SACH_SPECIFIC (make current test)
 	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
 		       EGL_NO_CONTEXT);
+#endif
 	wl_surface_destroy(window->surface);
+	window->surface = nullptr;
 }
 
 void EGLClient::destroy_wl_egl_surface() { 
 	struct window *window = &m_window;
+	if (!window->egl_surface) {
+		return;
+	}
+#if 0 // SACH_SPECIFIC (make current test)
 	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
 		       EGL_NO_CONTEXT);
+#endif
 	weston_platform_destroy_egl_surface(window->display->egl.dpy,
 					    window->egl_surface);
+	window->egl_surface = nullptr;
 }
 
 void EGLClient::destroy_egl_surface() { 
 	struct window *window = &m_window;
+	if (!window->native) {
+		return;
+	}
+#if 0 // SACH_SPECIFIC (make current test)
 	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
 		       EGL_NO_CONTEXT);
+#endif
 	wl_egl_window_destroy(window->native);
+	window->native = nullptr;
 }
 
 

@@ -36,10 +36,13 @@ class ObigoTestController {
     static bool destroy_wl_surface(uint32_t index, void *data);
     static bool destroy_wl_egl_surface(uint32_t index, void *data);
     static bool destroy_egl_surface(uint32_t index, void *data);
+    static bool make_current_surface(uint32_t index, void *data);
 
     //  action list (from parent to child) - sync
     static bool waiting(uint32_t ms, void *data);
-
+    static bool make_connect(uint32_t index, void *data);
+    static bool make_disconnect(uint32_t index, void *data);
+    static bool release_resource(uint32_t index, void *data);
 
  private:
     ~ObigoTestController();

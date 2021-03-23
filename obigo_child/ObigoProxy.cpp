@@ -8,6 +8,7 @@ extern void DestroyIviSurface(const int32_t& surface_id);
 extern void DestroyWlSurface(const int32_t& surface_id);
 extern void DestroyWlEglSurface(const int32_t& surface_id);
 extern void DestroyEglSurface(const int32_t& surface_id);
+extern void MakeCurrentSurface(const int32_t& surface_id);
 
 namespace v1 {
 namespace commonapi {
@@ -48,6 +49,7 @@ void ObigoProxy::Connect() {
     m_proxy->getDestroyWlSurfaceEvent().subscribe(DestroyWlSurface);
     m_proxy->getDestroyWlEglSurfaceEvent().subscribe(DestroyWlEglSurface);
     m_proxy->getDestroyEglSurfaceEvent().subscribe(DestroyEglSurface);
+    m_proxy->getMakeCurrentSurfaceEvent().subscribe(MakeCurrentSurface);
 }
 
 void ObigoProxy::CreatedApplication(const uint32_t& a_in) {
@@ -88,6 +90,11 @@ void ObigoProxy::DestroyedWlEglSurface(const uint32_t& a_in) {
 void ObigoProxy::DestroyedEglSurface(const uint32_t& a_in) {
     CommonAPI::CallStatus callStatus;
     m_proxy->DestroyedEglSurface(a_in, callStatus);
+}
+
+void ObigoProxy::MadeCurrentSurface(const uint32_t& a_in) {
+    CommonAPI::CallStatus callStatus;
+    m_proxy->MadeCurrentSurface(a_in, callStatus);
 }
 
 

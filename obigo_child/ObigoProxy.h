@@ -26,6 +26,7 @@ class ObigoProxy {
     void DestroyedWlSurface(const uint32_t& a_in);
     void DestroyedWlEglSurface(const uint32_t& a_in);
     void DestroyedEglSurface(const uint32_t& a_in);
+    void MadeCurrentSurface(const uint32_t& a_in);
 
  private:
     ObigoProxy();

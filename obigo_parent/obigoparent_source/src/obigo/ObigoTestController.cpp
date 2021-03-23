@@ -4,6 +4,9 @@
 #include <cstdint>
 #include <list>
 
+#pragma GCC push_options
+#pragma GCC optimize ("O0")
+
 #include "obigo/ObigoTestController.h"
 
 #include "obigo/SubSurfaceManager.h"
@@ -63,6 +66,9 @@ void ObigoTestController::initActionList() {
     m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_wl_egl_surface", destroy_wl_egl_surface));
     m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("destroy_egl_surface", destroy_egl_surface));
     m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("waiting", waiting));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("make_connect", make_connect));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("make_disconnect", make_disconnect));
+    m_actionList.insert(std::pair<std::string, bool (*)(uint32_t , void *)>("make_current_surface", make_current_surface));
 }
 
 void ObigoTestController::initHistory() {
@@ -109,61 +115,89 @@ void ObigoTestController::run() {
 }
 
 bool ObigoTestController::create_application(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
 	ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
 	pThis->getHost()->create_application(index);
 }
 
 bool ObigoTestController::destroy_application(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
 	ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
 	pThis->getHost()->destroy_application(index);
 }
 
 bool ObigoTestController::show_application(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
     ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
     pThis->getHost()->show_application(index);
 }
 
 bool ObigoTestController::hide_application(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
     ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
     pThis->getHost()->hide_application(index);
 }
 
 bool ObigoTestController::destroy_ivi_surface(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
     ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
     pThis->getHost()->destroy_ivi_surface(index);
 }
 
 bool ObigoTestController::destroy_wl_surface(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
     ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
     pThis->getHost()->destroy_wl_surface(index);
 }
 
 bool ObigoTestController::destroy_wl_egl_surface(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
     ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
     pThis->getHost()->destroy_wl_egl_surface(index);
 }
 
 bool ObigoTestController::destroy_egl_surface(uint32_t index, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, index); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
     ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
     pThis->getHost()->destroy_egl_surface(index);
 }
 
+bool ObigoTestController::make_current_surface(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->make_current_surface(index);
+}
 
 static void TimerExpired(sigval const sv) noexcept {
 	ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(sv.sival_ptr);
 	pThis->run();
 }
 
+// sync
+
+bool ObigoTestController::make_connect(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->show();
+    pThis->run();
+}
+
+bool ObigoTestController::make_disconnect(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->disconnect();
+    pThis->run();
+}
+
+bool ObigoTestController::release_resource(uint32_t index, void *data) {
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, index); fflush(stdout);
+    ObigoTestController *pThis = reinterpret_cast<ObigoTestController *>(data);
+    pThis->getHost()->release_resource(index);
+    pThis->run();
+}
+
 bool ObigoTestController::waiting(uint32_t ms, void *data) {
-    fprintf(stdout, "[ObigoParent]::%s::%d::%d\n", __func__, __LINE__, ms); fflush(stdout);
+    fprintf(stdout, "[ObigoParent]::%s::%d::%d SACH\n", __func__, __LINE__, ms); fflush(stdout);
 
     timer_t timerID;
     struct sigevent sev;
@@ -189,3 +223,5 @@ bool ObigoTestController::waiting(uint32_t ms, void *data) {
     }
 }
 
+
+#pragma GCC pop_options

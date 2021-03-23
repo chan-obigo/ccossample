@@ -51,6 +51,12 @@ interface ObigoTest {
 		}
 	}
 
+	method MadeCurrentSurface {
+		in {
+			UInt32 surface_id
+		}
+	}
+
 	broadcast CreateApplication {
 		out {
 			UInt32 index
@@ -99,4 +105,9 @@ interface ObigoTest {
 		}
 	}
 
+	broadcast MakeCurrentSurface {
+	    out {
+			UInt32 surface_id
+		}
+	}
 }

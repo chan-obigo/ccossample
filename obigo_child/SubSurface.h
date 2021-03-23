@@ -22,6 +22,8 @@ class SubSurface {
     void DestroyWlEglSurface();
     void DestroyEglSurface();
 
+    void MakeCurrentSurface();
+
  private:
     struct wl_surface* m_wlsurface;
     struct ivi_surface* m_ivisurface;

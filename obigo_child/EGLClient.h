@@ -92,6 +92,7 @@ class EGLClient {
 	void destroy_surface(struct window *window);
     void redraw(uint32_t time);
 
+	void make_current();
 	void destroy_ivi_surface();
 	void destroy_wl_surface();
 	void destroy_wl_egl_surface();

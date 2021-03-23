@@ -23,6 +23,7 @@ class ObigoStub {
     void fireDestroyWlSurfaceEvent(uint32_t surface_id);
     void fireDestroyWlEglSurfaceEvent(uint32_t surface_id);
     void fireDestroyEglSurfaceEvent(uint32_t surface_id);
+    void fireMakeCurrentSurfaceEvent(uint32_t surface_id);
 
  private:
     ObigoStub();

@@ -16,6 +16,7 @@ typedef enum SignalType {
     FROM_SIGNAL_DESTROY_WL_SURFACE,
     FROM_SIGNAL_DESTROY_WL_EGL_SURFACE,
     FROM_SIGNAL_DESTROY_EGL_SURFACE,
+    FROM_SIGNAL_MAKE_CURRENT_SURFACE,
     FROM_SIGNAL_NONE,
 };
 
@@ -71,6 +72,12 @@ void DestroyEglSurface(const int32_t& surface_id) {
     actving_signal = FROM_SIGNAL_DESTROY_EGL_SURFACE;
 }
 
+void MakeCurrentSurface(const int32_t& surface_id) {
+    fprintf(stdout, "[ObigoChild]::%s::%d::%d\n", __func__, __LINE__, surface_id); fflush(stdout);
+    actving_surface = surface_id;
+    actving_signal = FROM_SIGNAL_MAKE_CURRENT_SURFACE;
+}
+
 void HandleSignal(SignalType type) {
     switch (type) {
         case FROM_SIGNAL_CREATE_APPLICATION :
@@ -96,6 +103,9 @@ void HandleSignal(SignalType type) {
             break;
         case FROM_SIGNAL_DESTROY_EGL_SURFACE :
             subSurfaceManager.DestroyEglSurface(actving_surface);
+            break;
+        case FROM_SIGNAL_MAKE_CURRENT_SURFACE :
+            subSurfaceManager.MakeCurrentSurface(actving_surface);
             break;
         default:
             break;

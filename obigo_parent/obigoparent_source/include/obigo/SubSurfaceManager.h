@@ -25,7 +25,8 @@ class SubSurfaceManager {
     };
 
     struct SubSurfaceInfo {
-        std::shared_ptr<ccos::window::HSubSurface> subsurface;
+        // std::shared_ptr<ccos::window::HSubSurface> subsurface;
+        ccos::window::HSubSurface *subsurface;
         ExampleSubSurfaceListener *subsurfaceListener;
         struct Rectangle* rect;
         bool isShow;
@@ -39,12 +40,9 @@ class SubSurfaceManager {
     struct Rectangle* getIndexedRectangle(uint32_t index) const;
     void makeEmptyRectangle(struct Rectangle* rect) { rect->used = false; }
 
-    void created(const uint32_t surface_id);    // registered
-    void destroyed(const uint32_t surface_id);    // unregistered
-    void showed(const uint32_t surface_id);    // connect
-    void hided(const uint32_t surface_id);    // disconnect
-
     void create();
+    void show();
+    void disconnect();
     void show(const ccos::window::HWindowId& a_winID);
     void raiseIssue(const ccos::window::HWindowId& a_winID);
     void setWinID(ccos::window::HWindowId id);
@@ -62,6 +60,8 @@ class SubSurfaceManager {
     bool destroy_wl_surface(uint32_t index);
     bool destroy_wl_egl_surface(uint32_t index);
     bool destroy_egl_surface(uint32_t index);
+    bool release_resource(uint32_t index);
+    bool make_current_surface(uint32_t index);
 
     void reply_create_application(uint32_t surface_id);
     void reply_destroy_application(uint32_t surface_id);
