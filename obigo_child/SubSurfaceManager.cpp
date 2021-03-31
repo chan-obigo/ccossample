@@ -60,3 +60,9 @@ void SubSurfaceManager::Draw() {
         surface->redraw();
     }
 }
+
+void SubSurfaceManager::destroy() {
+    for (auto surface : m_subSurfaces) {
+        surface->destroy();
+    }   
+}

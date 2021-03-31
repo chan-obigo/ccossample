@@ -266,14 +266,15 @@ void EGLClient::destroy_surface(struct window *window)
 {
 	/* Required, otherwise segfault in egl_dri2.c: dri2_make_current()
 	 * on eglReleaseThread(). */
+	wl_egl_window_destroy(window->native);
+
+	wl_surface_destroy(window->surface);
+	
 	eglMakeCurrent(window->display->egl.dpy, EGL_NO_SURFACE, EGL_NO_SURFACE,
 		       EGL_NO_CONTEXT);
 
 	weston_platform_destroy_egl_surface(window->display->egl.dpy,
 					    window->egl_surface);
-	wl_egl_window_destroy(window->native);
-
-	wl_surface_destroy(window->surface);
 
 	if (window->callback)
 		wl_callback_destroy(window->callback);
@@ -411,7 +412,9 @@ EGLClient::initialize() {
 }
 
 
-
+void EGLClient::destroy() {
+	destroy_surface(&m_window);
+}
 
 
 

@@ -1,7 +1,7 @@
 {
     "appInfoVersion": "1.0",
     "common": {
-        "appName": "bigbang",
+        "appName": "voicememohmi",
         "sdkVersion": "pony-2.0.0",
         "vendor": "Obigo Inc.",
         "author": "zeus.yoon",
@@ -17,7 +17,7 @@
         }
     },
     "appServices": {
-        "BIGBANG": {
+        "VOICEMEMO": {
             "userClass" : "ExampleAppService",
             "iac": {
                 "p2p": true,

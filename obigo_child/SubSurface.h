@@ -13,6 +13,7 @@ class SubSurface {
 
     void CreateSurface(int32_t surfaceid);
     void redraw();
+    void destroy();
 
  private:
     struct wl_surface* m_wlsurface;

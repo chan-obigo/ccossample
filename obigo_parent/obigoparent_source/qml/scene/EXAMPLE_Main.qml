@@ -7,13 +7,13 @@ HScene {
     sceneID: "EXAMPLE.Main"
     property var form: scene.loader.item
 
-    loader.sourceComponent: Component {
-        EXAMPLE_Main_Form {
-            allMenuListView.delegate: AllMenuWidgetBase {
+//    loader.sourceComponent: Component {
+//        EXAMPLE_Main_Form {
+//            allMenuListView.delegate: AllMenuWidgetBase {
 
-         }
-     }
-}
+//         }
+//     }
+//}
     Component.onCompleted: {
 
     }

@@ -1,5 +1,8 @@
 #include "ObigoProxy.h"
 
+extern bool g_is_destroy;
+extern int g_surface_id;
+
 namespace v1 {
 namespace commonapi {
 namespace examples {
@@ -34,6 +37,9 @@ void ObigoProxy::Connect() {
     m_proxy->getDestroyIviSurfaceEvent().subscribe([&](const int32_t& surface_id) {
         // DOTO () - Please Destroy surface_id's ivi surface
         fprintf(stdout, "[ObigoChild]::DestroyIviSurfaceEvent::%d::%d\n", __LINE__, surface_id); fflush(stdout);
+        if (g_surface_id == surface_id) {
+            g_is_destroy = true;
+        }
     });
 
     m_proxy->getDestroyWlSurfaceEvent().subscribe([&](const int32_t& surface_id) {

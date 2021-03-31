@@ -32,11 +32,16 @@ void ExampleAppService::onIACMessageReceived(const std::string& senderId, const 
     if (msgId == "APP_REQUEST_SHOW_IF_AVAILABLE") {
         fprintf(stdout, "[ObigoParent]::%s::%d::APP_REQUEST_SHOW_IF_AVAILABLE\n", __func__, __LINE__); fflush(stdout);
         auto userDataJson = nlohmann::json::from_cbor(msgData);
-        std::string appServiceToShow = userDataJson["service_type"];
-        std::string intentToShow = userDataJson["data"]["id"];
-        requestShowApplication(ccos::HScreenType::FRONT_CENTER, "bigbang", appServiceToShow,
-                               ccos::app::manager::appeventmanager::AppLayerIdType::INTENT,
-                               intentToShow, std::string());
+        if (userDataJson["data"]["type"] == "intent") {
+            if (userDataJson["data"]["screen"] == "FRONT_CENTER") {
+                fprintf(stdout, "[ObigoParent]::%s::%d::APP_REQUEST_SHOW_IF_AVAILABLE\n", __func__, __LINE__); fflush(stdout);
+                std::string appServiceToShow = userDataJson["service_type"];
+                std::string intentToShow = userDataJson["data"]["id"];
+                requestShowApplication(ccos::HScreenType::FRONT_CENTER, "voicememohmi", appServiceToShow,
+                                       ccos::app::manager::appeventmanager::AppLayerIdType::INTENT,
+                                       intentToShow, std::string());
+            }
+        }
     }
 }
 

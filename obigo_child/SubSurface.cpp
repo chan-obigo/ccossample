@@ -124,3 +124,10 @@ void SubSurface::redraw() {
     paint_pixels(static_cast<uint32_t*>(shm_data));
 #endif    
 }
+
+void SubSurface::destroy() {
+#if defined(EGL_ONLY)
+    m_eglCleint->destroy();
+#endif
+    ivi_surface_destroy(m_ivisurface);
+}
