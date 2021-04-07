@@ -24,24 +24,62 @@ HWindow {
     HTopBar{
       id : topbar
 
-      Rectangle {
-          y: 0
-          x: 500
-          width: 500
-
-          Text {
-            y: parent.y + 30
-            id: subtitle
-            text: qsTr("Sub Title")
-            color: "white"
-            font.pixelSize: 30
-          }
-      }
+      buttonList: [
+         {
+             "type": textml,
+             "buttonId": "top1",
+             "text": "TOP1"
+         },
+         {
+             "type": text,
+             "buttonId": "top2",
+             "text": "TOP2"
+         }
+      ]
 
       appTitle: "Title"
+      appIconURI: "general/statusbar/status_profile_default.png"
 
       onButtonClicked:{ 
         console.log("onButtonClicked : "+buttonId);
+        if (buttonId === "top1") {
+          topbar.buttonList = [
+             {
+                 "type": textml,
+                 "buttonId": "top1",
+                 "text": "TOP1"
+             },
+             {
+                 "type": text,
+                 "buttonId": "top2",
+                 "text": "TOP2"
+             },
+             {
+                 "type": text,
+                 "buttonId": "t_new1",
+                 "text": "T_NEW1"
+             },
+             {
+                 "type": text,
+                 "buttonId": "t_new2",
+                 "text": "T_NEW2"
+             }
+          ]
+        }
+        if (buttonId === "top2") {
+          topbar.buttonList = [
+             {
+                 "type": textml,
+                 "buttonId": "top1",
+                 "text": "TOP1"
+             },
+             {
+                 "type": text,
+                 "buttonId": "top2",
+                 "text": "TOP2"
+             }
+          ]
+        }
       }
 
       Component.onCompleted: {
@@ -62,18 +100,56 @@ HWindow {
     id: bottombar
     buttonListMenu :[
       {
-        "type": text,
-        "buttonId": "store",
-        "text": "App Center"
+        "type": textml,
+        "buttonId": "bottom1",
+        "text": "BOTTOM1"
       },
       {
         "type": text,
-        "buttonId": "launcher",
-        "text": "Launcher"
+        "buttonId": "bottom2",
+        "text": "BOTTOM2"
       }
     ]
     onButtonClicked:{ 
       console.log("onButtonClicked : "+buttonId);
+      if (buttonId === "bottom1") {
+        bottombar.buttonListMenu = [
+           {
+               "type": textml,
+               "buttonId": "bottom1",
+               "text": "BOTTOM1"
+           },
+           {
+               "type": text,
+               "buttonId": "bottom2",
+               "text": "BOTTOM2"
+           },
+           {
+               "type": text,
+               "buttonId": "b_new1",
+               "text": "B_NEW1"
+           },
+           {
+               "type": text,
+               "buttonId": "b_new2",
+               "text": "B_NEW2"
+           }
+        ]
+      }
+      if (buttonId === "bottom2") {
+        bottombar.buttonListMenu = [
+           {
+               "type": textml,
+               "buttonId": "bottom1",
+               "text": "BOTTOM1"
+           },
+           {
+               "type": text,
+               "buttonId": "bottom2",
+               "text": "BOTTOM2"
+           }
+        ]
+      }
     }
   }
 }
