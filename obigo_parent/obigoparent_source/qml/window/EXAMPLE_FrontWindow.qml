@@ -98,6 +98,8 @@ HWindow {
 
   HBottomBar { // GNB menu NowPlaying Bar 
     id: bottombar
+    property int count : 1
+
     buttonListMenu :[
       {
         "type": textml,
@@ -112,6 +114,44 @@ HWindow {
     ]
     onButtonClicked:{ 
       console.log("onButtonClicked : "+buttonId);
+      if (buttonId === "Back") {
+        if (bottombar.count === 1) {
+          console.log("[USE buttonListMenu]");
+          bottombar.isTabsUsed = false
+          bottombar.buttonsTabBar = []
+
+          bottombar.buttonListMenu = [
+            {
+              "type": textml,
+              "buttonId": "bottom1",
+              "text": "BOTTOM1"
+            },
+            {
+              "type": text,
+              "buttonId": "bottom2",
+              "text": "BOTTOM2"
+            }
+          ]
+          bottombar.count = 2
+        } else if (bottombar.count === 2) {
+          console.log("[USE buttonListMenu]");
+          bottombar.buttonListMenu = []
+          
+          bottombar.isTabsUsed = true
+          bottombar.buttonsTabBar = [
+            {
+              "buttonId": "tab_1",
+              "text": "BOTTOM1"
+            },
+            {
+              "buttonId": "tab_2",
+              "text": "BOTTOM2"
+            }
+          ]
+          bottombar.count = 1
+        }
+      }
+
       if (buttonId === "bottom1") {
         bottombar.buttonListMenu = [
            {
@@ -148,6 +188,38 @@ HWindow {
                "buttonId": "bottom2",
                "text": "BOTTOM2"
            }
+        ]
+      }
+      if (buttonId === "tab_1") {
+        bottombar.buttonsTabBar = [
+          {
+            "buttonId": "tab_1",
+            "text": "BOTTOM1"
+          },
+          {
+            "buttonId": "tab_2",
+            "text": "BOTTOM2"
+          }
+        ]
+      }
+      if (buttonId === "tab_2") {
+        bottombar.buttonsTabBar = [
+          {
+            "buttonId": "tab_1",
+            "text": "BOTTOM1"
+          },
+          {
+            "buttonId": "tab_2",
+            "text": "BOTTOM2"
+          },
+          {
+            "buttonId": "tab_3",
+            "text": "BOTTOM3"
+          },
+          {
+            "buttonId": "tab_3",
+            "text": "BOTTOM3"
+          }
         ]
       }
     }
