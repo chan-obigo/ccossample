@@ -100,6 +100,9 @@ HWindow {
     id: bottombar
     property int count : 1
 
+    currentPage: 5
+    totalPages: 10
+
     buttonListMenu :[
       {
         "type": textml,
@@ -114,6 +117,14 @@ HWindow {
     ]
     onButtonClicked:{ 
       console.log("onButtonClicked : "+buttonId);
+      if (buttonId === "Car") {
+        if (currentPage < totalPages-1) {
+          currentPage = currentPage +1
+        } else {
+          currentPage = 0
+        }
+
+      }
       if (buttonId === "Back") {
         if (bottombar.count === 1) {
           console.log("[USE buttonListMenu]");
