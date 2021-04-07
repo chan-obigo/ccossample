@@ -210,6 +210,14 @@ HWindow {
           {
             "buttonId": "tab_2",
             "text": "BOTTOM2"
+          },
+          {
+            "buttonId": "tab_3",
+            "text": "BOTTOM3"
+          },
+          {
+            "buttonId": "tab_4",
+            "text": "BOTTOM4"
           }
         ]
       }
@@ -222,14 +230,6 @@ HWindow {
           {
             "buttonId": "tab_2",
             "text": "BOTTOM2"
-          },
-          {
-            "buttonId": "tab_3",
-            "text": "BOTTOM3"
-          },
-          {
-            "buttonId": "tab_3",
-            "text": "BOTTOM3"
           }
         ]
       }
